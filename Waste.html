@@ -1,0 +1,103 @@
+<html><head>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Public+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<title>Waste generation</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body>
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden" style="--select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(78,151,78)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e'); font-family: &quot;Public Sans&quot;, &quot;Noto Sans&quot;, sans-serif;">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7f3e7] px-10 py-3">
+<div class="flex items-center gap-4 text-[#0e1b0e]">
+<div class="size-8 text-[#17cf17]">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#0e1b0e] text-lg font-bold leading-tight tracking-[-0.015em]">EcoLife</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4">
+<nav class="flex items-center gap-6">
+<a class="text-slate-700 text-sm font-medium leading-normal" href="#">Home</a>
+<a class="text-slate-700 text-sm font-medium leading-normal" href="#">About</a>
+<a class="text-slate-700 text-sm font-medium leading-normal" href="#">Programs</a>
+<a class="text-slate-700 text-sm font-medium leading-normal" href="#">Resources</a>
+<a class="text-slate-700 text-sm font-medium leading-normal" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-10 px-4 bg-[#17cf17] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-600 transition-colors">
+<span class="truncate">Donate</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB57zXlmuiDb2I1R6zTiJ8uoYUzQJJG93hZJeBscsc0Wt-Z5GAj0fc2tERRd8QZYaq4sOd3Zn1ixiFPnOJDiFBoia-RI5ws4NkzybeRFlB_MpiBTF0GDbIsKFGf4JPCcBdXsO5pz1CbjWYwagmRy5oGgE2OaRMzoXNFYkMitdv_MlaqLrVKe8EKwdQyDVm0c4wD3WAiSoWJsoUBPnyqlTzatnDzXuRfHF2poXyegbo5Te76jhZKnmQ9xrjm3kghoWm7HM-0lxzDk-M");'></div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 bg-gray-50/50">
+<div class="w-full max-w-2xl">
+<div class="bg-white rounded-lg shadow-sm border border-gray-200/80 p-8">
+<div class="flex flex-col gap-4">
+<div class="flex gap-4 justify-between items-center">
+<p class="text-slate-600 text-sm font-medium">Step 1 of 4</p>
+<div class="flex items-center gap-2">
+<div class="h-1.5 w-10 rounded-full bg-[#17cf17]"></div>
+<div class="h-1.5 w-10 rounded-full bg-gray-200"></div>
+<div class="h-1.5 w-10 rounded-full bg-gray-200"></div>
+<div class="h-1.5 w-10 rounded-full bg-gray-200"></div>
+</div>
+</div>
+</div>
+<div class="text-center py-6">
+<h1 class="text-slate-900 text-3xl font-bold tracking-tight">Waste Generation Survey</h1>
+<p class="text-slate-600 text-base mt-2">
+                  Help us understand your waste habits to provide personalized solutions for a greener lifestyle.
+                </p>
+</div>
+<form class="flex flex-col gap-6 mt-4">
+<div class="flex flex-col gap-2">
+<label class="text-slate-800 text-sm font-medium" for="household-size">Household Size</label>
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#17cf17] border border-gray-300 bg-white focus:border-transparent h-12 bg-[image:--select-button-svg] placeholder:text-slate-400 px-3 text-base" id="household-size">
+<option value="">Select number of people</option>
+<option value="1">1 person</option>
+<option value="2">2 people</option>
+<option value="3">3 people</option>
+<option value="4">4 people</option>
+<option value="5+">5+ people</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-800 text-sm font-medium" for="collection-frequency">Waste Collection Frequency</label>
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#17cf17] border border-gray-300 bg-white focus:border-transparent h-12 bg-[image:--select-button-svg] placeholder:text-slate-400 px-3 text-base" id="collection-frequency">
+<option value="">Select frequency</option>
+<option value="daily">Daily</option>
+<option value="weekly">Weekly</option>
+<option value="bi-weekly">Bi-weekly</option>
+<option value="monthly">Monthly</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-800 text-sm font-medium" for="recycling-practices">Recycling Practices</label>
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#17cf17] border border-gray-300 bg-white focus:border-transparent h-12 bg-[image:--select-button-svg] placeholder:text-slate-400 px-3 text-base" id="recycling-practices">
+<option value="">Select your recycling habits</option>
+<option value="always">I always recycle</option>
+<option value="sometimes">I sometimes recycle</option>
+<option value="rarely">I rarely recycle</option>
+<option value="never">I never recycle</option>
+</select>
+</div>
+<div class="flex pt-6 justify-end">
+<button class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-[#17cf17] text-white text-base font-bold leading-normal tracking-wide hover:bg-green-600 transition-colors">
+<span class="truncate">Next Step</span>
+<span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>
