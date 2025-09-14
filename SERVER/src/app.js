@@ -15,12 +15,12 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // routes import
-import userRouter from './routes/userRoutes.js';
-import courseRouter from './routes/courseRoutes.js';
-import eventRouter from './routes/eventRoutes.js';
-import productRouter from './routes/productRoutes.js';
-import orderRouter from './routes/orderRoutes.js';
-import submissionRouter from './routes/submissionRoutes.js';
+import userRouter from './routers/user.routes.js';
+import courseRouter from './routers/course.routes.js';
+import eventRouter from './routers/event.routes.js';
+import productRouter from './routers/product.routes.js';
+import orderRouter from './routers/order.routes.js';
+import submissionRouter from './routers/submission.routes.js';
 
 // routes declare
 app.use("/api/users", userRouter);
