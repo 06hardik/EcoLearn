@@ -1,0 +1,243 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Public+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>E-commerce</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-50: #f0fdf4;
+        --primary-100: #dcfce7;
+        --primary-200: #bbf7d0;
+        --primary-300: #86efac;
+        --primary-400: #4ade80;
+        --primary-500: #22c55e;
+        --primary-600: #16a34a;
+        --primary-700: #15803d;
+        --primary-800: #166534;
+        --primary-900: #14532d;
+        --primary-950: #052e16;
+      }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden group/design-root">
+<header class="sticky top-0 z-20 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-2 text-primary-700" href="#">
+<span class="material-symbols-outlined text-3xl text-primary-600">eco</span>
+<h2 class="text-xl font-bold tracking-tight">EcoLife</h2>
+</a>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors" href="#">About</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors" href="#">Programs</a>
+<a class="text-sm font-bold text-primary-600" href="#">Shop</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-full h-10 w-10 text-gray-500 hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="relative flex items-center justify-center rounded-full h-10 w-10 text-gray-500 hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-600 text-xs font-bold text-white">3</span>
+</button>
+<button class="hidden sm:flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-10 px-4 bg-gray-100 text-gray-800 text-sm font-bold hover:bg-gray-200 transition-colors">
+<span>Login</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="w-full lg:w-3/4">
+<div class="mb-8">
+<h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Eco-Friendly Shop</h1>
+<p class="mt-4 text-lg text-gray-600">Discover our curated collection of sustainable products designed to help you live a greener life.</p>
+</div>
+<div class="flex flex-wrap gap-3 mb-8">
+<button class="px-4 py-2 rounded-full text-sm font-medium bg-primary-600 text-white">All Products</button>
+<button class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">Eco-Kits</button>
+<button class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">Green Items</button>
+<button class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">Sustainable Living</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+<div class="group flex flex-col overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+<div class="relative">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDve0wwxMBz24MkVb0V-hGiFJxh60DxNJMSRYZSqRj2QHgJsR9mdIoTVViEvmWNATRJGULi_CS8Qq98xPY62Nl1E8re683USFQzNgKF1szzK3X7jC1gBhQzN71vIrDlh3UjEhPotiM557WmGfZfABvEDcE-ptjIny_HDA9uXqrZtn-uIrz2pq0wGZEG2jEdK61XI7MThNEOE-OLA8mTql9BQqxGCX6HQRdYQEPavmcbthFlFlQxWTTpHFm6ImjSNzIR6GgxHJvvFos");'></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button class="bg-primary-600 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="text-base font-semibold text-gray-800">Sustainable Starter Kit</h3>
+<p class="text-sm text-gray-500 mt-1">Perfect for beginners</p>
+<p class="text-lg font-bold text-primary-700 mt-auto pt-2">$39.99</p>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+<div class="relative">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBQTAF4apupD1X_lkyX8oatXOFaxH2_7KirsmpN6eXya3xN9RPo7r9MVhpcoziJ-3X5XrE5pK47fVJ5a6t-f0iQlrm7GK4SNMqH11jWV92NZopR4_c6Bcf7MEWAPSz6oW9JXdjAhqQKLPR6HP43YJu5O_eW-VrlKHozO2P8QDiXUkQYyeC013PHKqdcw9mfWMWpb_4eJ6gqRQE2YSI_Pk-91stGr05Mn_D0e3UfeIWq7PHsMJPcSNrjUM_ndIm9fWTBkAFXOJ5KE0M");'></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button class="bg-primary-600 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="text-base font-semibold text-gray-800">Eco-Friendly Cleaning Kit</h3>
+<p class="text-sm text-gray-500 mt-1">Clean green, live green</p>
+<p class="text-lg font-bold text-primary-700 mt-auto pt-2">$24.99</p>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+<div class="relative">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC3RHBFZ7wIeRIiNvfubdBRzzySlBw0fZtqhWZKV1Aq9js9mK8GpU5rjt6NyGe9KN_8XWMScTzmJ-avcoC1z1DVFgSzl0HxgmBOn66V8vOgGmcSDkwYdjC9Pd7qFa530m8yku3et1MMR5wZIaykhTWpEAdt3Ztjrqz5iI3QgC2SWFA_9WrJ46jFhZCfot795V7U0Tn7Hu1MxoPk9Xkc0u9i6nhHjhTlClMixNe6aP1MLakdL_q3qoQfYpcg2SwrFsf1vQi6FWI___w");'></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button class="bg-primary-600 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="text-base font-semibold text-gray-800">Reusable Water Bottle Set</h3>
+<p class="text-sm text-gray-500 mt-1">Stay hydrated sustainably</p>
+<p class="text-lg font-bold text-primary-700 mt-auto pt-2">$19.99</p>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+<div class="relative">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkxy6PjZNQtYc08S1r2c9KJu5_68VqfVPSGavXWI901bmNS_AMwUf6mbmdl1lS0445S5dN2tebqyQUKXpqGj9y1pfYrW1YGDNat89Ut45pdNwCugvmhW4zBtUQPDtkWNj0xjGMBUWByMREFsltrcTyikjgJiMO1IZgK2hO2qKWfGd5fc591bDp063IOsoXeXm3XzqCiQDgkIBvh6AMUIGkBjkeZHF2A6Btqi-u4vQ9qVeJZCJ47kaOTnxgLospId4bSOxataryfus");'></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button class="bg-primary-600 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="text-base font-semibold text-gray-800">Organic Cotton Tote Bags</h3>
+<p class="text-sm text-gray-500 mt-1">Carry your essentials in style</p>
+<p class="text-lg font-bold text-primary-700 mt-auto pt-2">$15.99</p>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+<div class="relative">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFkfTKJ4iz8v35ME52vScdCQGljTbhvYGGoII5ob48oC3noOyKbwhDa2mDTANfGcGfWzT9PGs48MJDGBGhuzFMTzgl31fXj1m1qDAG0Bzt9gKc7JGE7DVunkyS3QlmSRlwKcIekEV4h5sY0kU4egCqmOGIW4y0nE39gA2KHyD9LDAMDMhDYDujJYBrXhdx820FJ54K2mCc7wRFGdWU9AtolOn02pnrDHGnbzliZ-YCr9v9aebxLBIaYJB5dml1iRBiFJCdm5fT5KI");'></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button class="bg-primary-600 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="text-base font-semibold text-gray-800">Solar-Powered Phone Charger</h3>
+<p class="text-sm text-gray-500 mt-1">Charge on the go, sustainably</p>
+<p class="text-lg font-bold text-primary-700 mt-auto pt-2">$45.99</p>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+<div class="relative">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1v2fk3mmRq6FIt7jtbuOb-k_BV1YwkMYhI08T2xX5hmJL9jw3yzNG-ITWGoYdA7JumcH1XBhyuPY8i2Y0Njtjsc7TzcpnsjIaJ5TlcHJGJ0qSTGs-C868rNoeRTHVaxuRHhrgTyg0Pm_9EtC3l9C6IaZxpZsct9ae4K-sBH7aFGCoG3CLKUTVl7aEclotSivJdpSYk1U5Pe7NYE7sIKbZsU0hTO_3i33I2-YA4QyBDpLLlrQzaX5g2NDJbAWz6E0GFj7bKl6xecQ");'></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button class="bg-primary-600 text-white rounded-full px-4 py-2 text-sm font-semibold">Add to Cart</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<h3 class="text-base font-semibold text-gray-800">Bamboo Utensil Set</h3>
+<p class="text-sm text-gray-500 mt-1">Ditch single-use plastics</p>
+<p class="text-lg font-bold text-primary-700 mt-auto pt-2">$12.99</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-1/4">
+<div class="sticky top-28 bg-white p-6 rounded-lg shadow-md">
+<h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">Order Summary</h2>
+<div class="space-y-4">
+<div class="flex justify-between text-gray-600">
+<span>Subtotal</span>
+<span>$128.95</span>
+</div>
+<div class="flex justify-between text-gray-600">
+<span>Shipping</span>
+<span>$5.00</span>
+</div>
+<div class="border-t pt-4 space-y-4">
+<div class="flex justify-between font-semibold text-gray-900">
+<span>Total</span>
+<span>$133.95</span>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<h3 class="text-lg font-semibold text-gray-800 mb-2">Use Green Points</h3>
+<p class="text-sm text-gray-500 mb-4">You have <span class="font-bold text-primary-600">150</span> Green Points available.</p>
+<div class="flex">
+<input class="form-input w-full rounded-l-md border-gray-300 focus:border-primary-500 focus:ring-primary-500" placeholder="Enter points" type="text"/>
+<button class="bg-primary-600 text-white px-4 py-2 rounded-r-md hover:bg-primary-700 transition-colors text-sm font-semibold">Apply</button>
+</div>
+</div>
+<div class="mt-4 flex justify-between text-sm text-primary-700">
+<span>Green Points Discount</span>
+<span>-$15.00</span>
+</div>
+<div class="border-t pt-4 mt-4">
+<div class="flex justify-between font-bold text-xl text-gray-900">
+<span>Grand Total</span>
+<span>$118.95</span>
+</div>
+</div>
+<button class="w-full mt-8 bg-primary-600 text-white font-bold py-3 px-4 rounded-md hover:bg-primary-700 transition-colors text-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">lock</span>
+                  Proceed to Payment
+                </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-primary-950 text-white">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<h3 class="text-lg font-semibold mb-4">EcoLife</h3>
+<p class="text-sm text-primary-200">Promoting environmental education and sustainable practices for a greener future.</p>
+</div>
+<div>
+<h3 class="text-base font-semibold mb-4 text-primary-100">Quick Links</h3>
+<ul class="space-y-2">
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Home</a></li>
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">About</a></li>
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Shop</a></li>
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-base font-semibold mb-4 text-primary-100">Resources</h3>
+<ul class="space-y-2">
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Terms of Service</a></li>
+<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">FAQ</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-base font-semibold mb-4 text-primary-100">Follow Us</h3>
+<div class="flex space-x-4">
+<a class="text-primary-200 hover:text-white transition-colors" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-primary-200 hover:text-white transition-colors" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-primary-200 hover:text-white transition-colors" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.001c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.001C22 6.477 17.523 2 12 2z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-8 border-t border-primary-800 pt-8 text-center text-sm text-primary-200">
+<p>© 2024 EcoLife. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>
