@@ -33,9 +33,13 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id).select("-password");
+    res.status(200).json(user);
+});
+
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -43,9 +47,15 @@ const loginUser = asyncHandler(async (req, res) => {
             expiresIn: '30d',
         });
 
+        res.cookie('token', token, {
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        });
+
         res.status(200).json({
             message: "Login successful",
-            token,
             user: {
                 id: user._id,
                 name: user.name,
@@ -57,28 +67,8 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
-const getCurrentUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id).select("-password");
-    res.status(200).json(user);
-});
-
 const logoutUser = asyncHandler(async (req, res) => {
-  await User.findByIdAndUpdate(
-    req.user._id,
-    {
-      $unset: {
-        refreshToken: 1, // this removes the field from document
-      },
-    },
-    {
-      new: true,
-    }
-  );
-
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
+    res.clearCookie('token');
     res.status(200).json({ message: "User logged out successfully" });
 });
 
