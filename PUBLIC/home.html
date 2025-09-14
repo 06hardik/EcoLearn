@@ -17,30 +17,32 @@
 <body>
 <div class="relative flex min-h-screen w-full flex-col bg-slate-50" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
 <div class="flex h-full grow flex-col">
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3">
-        <div class="flex items-center gap-3 text-gray-800">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3">
+    <div class="flex items-center gap-3 text-gray-800">
+        <a href="./home.html" class="flex items-center gap-3">
             <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
             <h2 class="text-gray-800 text-xl font-bold">EcoLearn</h2>
-        </div>
-        <nav class="hidden lg:flex items-center gap-8">
-            <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./learning.html">Learn</a>
-            <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./events.html">Campaigns</a>
-            <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="#">Green Points</a>
-            <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./ecommerce.html">Shop</a>
-        </nav>
-        <div class="flex items-center gap-2">
-            <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
-                <span>Login</span>
-            </button>
-            <div id="user-avatar-container" class="hidden relative">
-                <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
-                <div class="dropdown-menu absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                    <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-                </div>
+        </a>
+    </div>
+    <nav class="hidden lg:flex items-center gap-8">
+        <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./learning.html">Learn</a>
+        <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./events.html">Campaigns</a>
+        <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./leaderboard.html">Leaderboard</a>
+        <a class="text-gray-600 hover:text-green-600 text-sm font-medium" href="./ecommerce.html">Shop</a>
+    </nav>
+    <div class="flex items-center gap-2">
+        <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
+            <span>Login</span>
+        </button>
+        <div id="user-avatar-container" class="hidden relative">
+            <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
+            <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <main class="px-4 sm:px-12 lg:px-24 flex flex-1 justify-center py-10">
         <div class="flex flex-col max-w-7xl flex-1">
@@ -124,181 +126,8 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const API_BASE_URL = 'http://localhost:8000/api';
+<script src="auth.js"></script>
+<script src="home.js"></script>
 
-        // --- Authentication & UI Update ---
-        const loginButton = document.getElementById('login-button');
-        const userAvatarContainer = document.getElementById('user-avatar-container');
-        const userAvatarImg = document.getElementById('user-avatar-img');
-        const logoutButton = document.getElementById('logout-button');
-
-        const checkAuthStatus = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/users/current-user`, {
-                    credentials: 'include', // Important for sending cookies
-                });
-
-                if (response.ok) {
-                    const user = await response.json();
-                    loginButton.classList.add('hidden');
-                    userAvatarContainer.classList.remove('hidden');
-                    userAvatarImg.src = user.avatarUrl || 'https://via.placeholder.com/150'; // Default avatar
-                } else {
-                    loginButton.classList.remove('hidden');
-                    userAvatarContainer.classList.add('hidden');
-                }
-            } catch (error) {
-                console.error('Auth check failed:', error);
-                loginButton.classList.remove('hidden');
-                userAvatarContainer.classList.add('hidden');
-            }
-        };
-
-        const handleLogout = async () => {
-            try {
-                await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
-                window.location.reload(); // Reload the page to reflect logout state
-            } catch (error) {
-                console.error('Logout failed:', error);
-            }
-        };
-        
-        logoutButton.addEventListener('click', handleLogout);
-        checkAuthStatus(); // Check auth status on every page load
-
-        // --- Dynamic Content Loading ---
-        const fetchFeaturedCampaigns = async () => {
-            const campaignsContainer = document.getElementById('campaigns-container');
-            if (!campaignsContainer) return;
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/events`);
-                if (!response.ok) throw new Error('Failed to fetch');
-                const campaigns = await response.json();
-                
-                campaignsContainer.innerHTML = ''; // Clear loading text
-
-                campaigns.slice(0, 3).forEach(campaign => {
-                    const campaignCard = document.createElement('div');
-                    campaignCard.className = 'flex flex-col gap-4';
-                    campaignCard.innerHTML = `
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style="background-image: url('${campaign.imageUrl}');"></div>
-                        <div>
-                            <p class="text-gray-800 text-lg font-semibold">${campaign.title}</p>
-                            <p class="text-gray-500 text-sm">${campaign.description}</p>
-                        </div>
-                    `;
-                    campaignsContainer.appendChild(campaignCard);
-                });
-            } catch (error) {
-                console.error('Failed to load campaigns:', error);
-                campaignsContainer.innerHTML = '<p>Could not load campaigns.</p>';
-            }
-        };
-
-        fetchFeaturedCampaigns();
-
-        // --- Modal Handling ---
-        const modalBackdrop = document.getElementById('modal-backdrop');
-        const loginModal = document.getElementById('login-modal');
-        const signupModal = document.getElementById('signup-modal');
-        const closeModalButtons = document.querySelectorAll('.close-modal-button');
-        const showSignupLinks = document.querySelectorAll('.show-signup-modal');
-        const showLoginLinks = document.querySelectorAll('.show-login-modal');
-
-        const openModal = (modal) => {
-            modalBackdrop.classList.remove('hidden');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modalBackdrop.classList.remove('opacity-0');
-                modal.classList.remove('opacity-0');
-            }, 10);
-        };
-
-        const closeModal = () => {
-            modalBackdrop.classList.add('opacity-0');
-            loginModal.classList.add('opacity-0');
-            signupModal.classList.add('opacity-0');
-            setTimeout(() => {
-                modalBackdrop.classList.add('hidden');
-                loginModal.classList.add('hidden');
-                signupModal.classList.add('hidden');
-            }, 250);
-        };
-        
-        loginButton.addEventListener('click', () => openModal(loginModal));
-        modalBackdrop.addEventListener('click', closeModal);
-        closeModalButtons.forEach(btn => btn.addEventListener('click', closeModal));
-
-        showSignupLinks.forEach(link => link.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeModal();
-            setTimeout(() => openModal(signupModal), 260);
-        }));
-
-        showLoginLinks.forEach(link => link.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeModal();
-            setTimeout(() => openModal(loginModal), 260);
-        }));
-        
-        // --- Form Submission ---
-        const loginForm = document.getElementById('login-form');
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/users/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    window.location.reload(); // Reload to update UI
-                } else {
-                    const errorData = await response.json();
-                    alert(`Login Failed: ${errorData.message}`);
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('An error occurred during login.');
-            }
-        });
-
-        const signupForm = document.getElementById('signup-form');
-        signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/users/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
-                });
-
-                if (response.ok) {
-                    alert('Registration successful! Please log in.');
-                    closeModal();
-                    setTimeout(() => openModal(loginModal), 260);
-                } else {
-                    const errorData = await response.json();
-                    alert(`Registration Failed: ${errorData.message}`);
-                }
-            } catch (error) {
-                console.error('Signup error:', error);
-                alert('An error occurred during registration.');
-            }
-        });
-    });
-</script>
 </body>
 </html>

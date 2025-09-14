@@ -1,39 +1,95 @@
 const API_BASE_URL = 'http://localhost:8000/api';
+let currentUser = null;
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Elements ---
     const loginButton = document.getElementById('login-button');
     const userAvatarContainer = document.getElementById('user-avatar-container');
     const userAvatarImg = document.getElementById('user-avatar-img');
     const logoutButton = document.getElementById('logout-button');
-    
-    // You no longer need to check localStorage for a token.
-    // The browser handles sending the cookie automatically.
+    const dropdownMenu = document.getElementById('dropdown-menu');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const loginModal = document.getElementById('login-modal');
+    const signupModal = document.getElementById('signup-modal');
+    const closeModalButtons = document.querySelectorAll('.close-modal-button');
+    const showSignupLinks = document.querySelectorAll('.show-signup-modal');
+    const showLoginLinks = document.querySelectorAll('.show-login-modal');
 
-    try {
-        // We just need to ask the backend for the current user.
-        // If the cookie is valid, the backend will send back user data.
-        const response = await fetch(`${API_BASE_URL}/users/current-user`, {
-            credentials: 'include', // **IMPORTANT**: This tells fetch to send cookies
-        });
-
-        if (response.ok) {
-            const user = await response.json();
-            loginButton.classList.add('hidden');
-            userAvatarContainer.classList.remove('hidden');
-            userAvatarImg.src = user.avatarUrl || 'default-avatar.png';
+    // --- Auth Functions ---
+    const checkAuthStatus = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/users/current-user`, { credentials: 'include' });
+            if (response.ok) {
+                currentUser = await response.json();
+                if (loginButton) loginButton.classList.add('hidden');
+                if (userAvatarContainer) userAvatarContainer.classList.remove('hidden');
+                if (userAvatarImg) userAvatarImg.src = currentUser.avatarUrl || 'https://via.placeholder.com/150';
+            }
+        } catch (error) {
+            console.error('Auth check failed:', error);
         }
-    } catch (error) {
-        console.error('Authentication check failed:', error);
-    }
+    };
 
-    // Logout button now needs to call the backend logout endpoint
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async () => {
-            await fetch(`${API_BASE_URL}/users/logout`, { 
-                method: 'POST',
-                credentials: 'include' 
-            });
-            window.location.href = '/home.html';
+    const handleLogout = async () => {
+        await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
+        window.location.href = '/PUBLIC/home.html';
+    };
+
+    // --- Modal Functions ---
+    const openModal = (modal) => {
+        if (!modal) return;
+        modalBackdrop.classList.remove('hidden');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modalBackdrop.classList.remove('opacity-0');
+            modal.classList.remove('opacity-0');
+        }, 10);
+    };
+
+    const closeModal = () => {
+        modalBackdrop.classList.add('opacity-0');
+        if (loginModal) loginModal.classList.add('opacity-0');
+        if (signupModal) signupModal.classList.add('opacity-0');
+        setTimeout(() => {
+            modalBackdrop.classList.add('hidden');
+            if (loginModal) loginModal.classList.add('hidden');
+            if (signupModal) signupModal.classList.add('hidden');
+        }, 250);
+    };
+
+    // --- Event Listeners ---
+    if (loginButton) loginButton.addEventListener('click', () => openModal(loginModal));
+    if (logoutButton) logoutButton.addEventListener('click', handleLogout);
+    
+    // Dropdown click logic
+    if (userAvatarImg) {
+        userAvatarImg.addEventListener('click', (event) => {
+            event.stopPropagation();
+            if (dropdownMenu) dropdownMenu.classList.toggle('hidden');
         });
     }
+    
+    // Modal click logic
+    if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+    closeModalButtons.forEach(btn => btn.addEventListener('click', closeModal));
+    showSignupLinks.forEach(link => link.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal();
+        setTimeout(() => openModal(signupModal), 260);
+    }));
+    showLoginLinks.forEach(link => link.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal();
+        setTimeout(() => openModal(loginModal), 260);
+    }));
+    
+    // Close dropdown if clicking outside
+    window.addEventListener('click', () => {
+        if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
+            dropdownMenu.classList.add('hidden');
+        }
+    });
+
+    // --- Initial Execution ---
+    checkAuthStatus();
 });

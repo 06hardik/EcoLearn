@@ -102,83 +102,8 @@
 </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const API_BASE_URL = 'http://localhost:8000/api';
-        
-        // --- 1. Authentication & UI Update ---
-        const loginButton = document.getElementById('login-button');
-        const userAvatarContainer = document.getElementById('user-avatar-container');
-        const userAvatarImg = document.getElementById('user-avatar-img');
-        const logoutButton = document.getElementById('logout-button');
+<script src="auth.js"></script>
+<script src="waste.js"></script>
 
-        const checkAuthStatus = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/users/current-user`, {
-                    credentials: 'include',
-                });
-
-                if (response.ok) {
-                    const user = await response.json();
-                    loginButton.classList.add('hidden');
-                    userAvatarContainer.classList.remove('hidden');
-                    userAvatarImg.src = user.avatarUrl || 'https://via.placeholder.com/150';
-                    return true;
-                } else {
-                    // This is a protected page, redirect if not logged in
-                    window.location.href = '/home.html';
-                    return false;
-                }
-            } catch (error) {
-                console.error('Auth check failed:', error);
-                window.location.href = '/home.html';
-                return false;
-            }
-        };
-
-        const handleLogout = async () => {
-            await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
-            window.location.href = '/home.html';
-        };
-
-        logoutButton.addEventListener('click', handleLogout);
-        
-        // --- 2. Protect Page and Handle Form ---
-        const isLoggedIn = await checkAuthStatus();
-        if (!isLoggedIn) return; // Stop executing script if not logged in
-
-        const surveyForm = document.getElementById('waste-survey-form');
-        surveyForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const surveyData = {
-                householdSize: document.getElementById('household-size').value,
-                wasteCollectionFrequency: document.getElementById('collection-frequency').value,
-                recyclingPractices: document.getElementById('recycling-practices').value
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/users/survey`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(surveyData),
-                    credentials: 'include' // Important for sending auth cookie
-                });
-
-                if (response.ok) {
-                    alert('Thank you! Your survey has been submitted.');
-                    // You could redirect to the leaderboard or another page
-                    window.location.href = '/leaderboard.html';
-                } else {
-                    const errorData = await response.json();
-                    alert(`Submission Failed: ${errorData.message}`);
-                }
-            } catch (error) {
-                console.error('Survey submission error:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    });
-</script>
 </body>
 </html>
