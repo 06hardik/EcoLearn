@@ -1,28 +1,27 @@
 import { Router } from "express";
-import { 
+import {
     registerUser,
     loginUser,
     logoutUser,
-}   from "../controllers/user.controller.js";
-import { upload } from "../middlewares/multer.middleware.js"
+    getCurrentUser,
+    submitSurvey,
+    getLeaderboard,
+} from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-const router = Router()
 
-router.route("/register").post(registerUser)
+const router = Router();
 
-router.route("/login").post(loginUser)
+// Public routes
+router.route("/register").post(registerUser);
+router.route("/login").post(loginUser);
+router.route("/leaderboard").get(getLeaderboard);
 
-//secured routes
-router.route("/logout").post(verifyJWT,  logoutUser)
-router.route("/refresh-token").post(refreshAccessToken)
-router.route("/change-password").post(verifyJWT, changeCurrentPassword)
-router.route("/current-user").get(verifyJWT, getCurrentUser)
-router.route("/update-account").patch(verifyJWT, updateAccountDetails)
+// Secured routes
+router.route("/logout").post(verifyJWT, logoutUser);
+router.route("/current-user").get(verifyJWT, getCurrentUser);
+router.route("/survey").post(verifyJWT, submitSurvey);
 
-router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
-router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
-
-export default router
+export default router;
 
 
 
