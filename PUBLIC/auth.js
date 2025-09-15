@@ -1,7 +1,7 @@
+document.addEventListener('DOMContentLoaded', () => {
 const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
 let currentUser = window.currentUser;
 
-document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('login-button');
     const userAvatarContainer = document.getElementById('user-avatar-container');
     const userAvatarImg = document.getElementById('user-avatar-img');
