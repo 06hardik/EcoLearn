@@ -1,5 +1,5 @@
 const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
-let currentUser = null;
+let currentUser = window.currentUser;
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('login-button');
