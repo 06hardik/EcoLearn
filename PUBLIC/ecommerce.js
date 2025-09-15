@@ -1,10 +1,11 @@
 // This script runs AFTER auth.js
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('auth-check-complete', () => {
+    const API_BASE_URL = 'http://localhost:8000/api';
+    const currentUser = window.currentUser;
     let cart = [];
     let pointsToUse = 0;
     const SHIPPING_COST = 5.00;
 
-    // --- DOM Elements ---
     const productsContainer = document.getElementById('products-container');
     const cartCountSpan = document.getElementById('cart-count');
     const summarySubtotal = document.getElementById('summary-subtotal');
@@ -19,17 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const pointsInput = document.getElementById('points-input');
     const checkoutButton = document.getElementById('checkout-button');
     
-    // This function will run a little after auth.js has fetched the user
     const initializePage = () => {
         if(currentUser) {
             pointsSection.classList.remove('hidden');
             userPointsSpan.textContent = currentUser.points;
         }
         fetchProducts();
-        updateOrderSummary(); // Initial update
+        updateOrderSummary(); 
     };
 
-    // --- Product Loading ---
     const fetchProducts = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/products`);
@@ -57,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Cart Logic ---
     const updateOrderSummary = () => {
         const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
         const shipping = subtotal > 0 ? SHIPPING_COST : 0;
@@ -97,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateOrderSummary();
     });
 
-    // --- Points & Checkout ---
     applyPointsButton.addEventListener('click', () => {
         const points = parseInt(pointsInput.value, 10);
         if (isNaN(points) || points < 0) {
@@ -153,6 +150,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Initial Execution ---
-    setTimeout(initializePage, 100); // Run this shortly after auth.js
+    setTimeout(initializePage, 100); 
 });

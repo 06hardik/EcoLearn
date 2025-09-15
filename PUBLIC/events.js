@@ -1,6 +1,7 @@
 // This script runs AFTER auth.js
-document.addEventListener('DOMContentLoaded', () => {
-    // Note: API_BASE_URL and currentUser are available from auth.js
+document.addEventListener('auth-check-complete', () => {
+    const API_BASE_URL = 'http://localhost:8000/api';
+    const currentUser = window.currentUser;
     const eventsContainer = document.getElementById('events-container');
 
     const fetchEvents = async () => {

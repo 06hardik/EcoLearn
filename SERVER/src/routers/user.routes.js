@@ -6,6 +6,9 @@ import {
     getCurrentUser,
     submitSurvey,
     getLeaderboard,
+    updateCurrentUser,
+    changePassword,
+    getUserActivity,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -20,6 +23,12 @@ router.route("/leaderboard").get(getLeaderboard);
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/survey").post(verifyJWT, submitSurvey);
+router.route("/me")
+    .get(verifyJWT, getCurrentUser)
+    .put(verifyJWT, updateCurrentUser);
+
+router.route("/me/activity").get(verifyJWT, getUserActivity);
+router.route("/change-password").post(verifyJWT, changePassword);
 
 export default router;
 

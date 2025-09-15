@@ -116,6 +116,55 @@ const getLeaderboard = asyncHandler(async (req, res) => {
     res.status(200).json(users);
 });
 
+const updateCurrentUser = asyncHandler(async (req, res) => {
+    const { name, email } = req.body;
+    
+    const updatedUser = await User.findByIdAndUpdate(
+        req.user.id,
+        { name, email },
+        { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+        message: "Profile updated successfully",
+        user: updatedUser,
+    });
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Please provide both current and new passwords" });
+    }
+
+    const user = await User.findById(req.user.id);
+    const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isPasswordCorrect) {
+        return res.status(401).json({ message: "Invalid current password" });
+    }
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+});
+
+const getUserActivity = asyncHandler(async (req, res) => {
+    const activities = [
+        { title: "Joined 'Clean Up Our Parks' Campaign", type: "Campaign", date: "2025-09-12T10:00:00Z" },
+        { title: "Completed 'Waste Reduction' Module", type: "Learning", date: "2025-09-10T15:30:00Z" },
+        { title: "Earned 50 Green Points", type: "Reward", date: "2025-09-10T15:30:00Z" },
+        { title: "Joined 'Plant a Tree Today' Campaign", type: "Campaign", date: "2025-09-05T11:00:00Z" },
+    ];
+    
+    res.status(200).json(activities);
+});
+
 
 export {
     registerUser,
@@ -124,4 +173,7 @@ export {
     logoutUser,
     submitSurvey,
     getLeaderboard,
+    updateCurrentUser,
+    changePassword,
+    getUserActivity,
 };

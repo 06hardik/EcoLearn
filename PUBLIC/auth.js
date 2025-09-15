@@ -2,7 +2,6 @@ const API_BASE_URL = 'http://localhost:8000/api';
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elements ---
     const loginButton = document.getElementById('login-button');
     const userAvatarContainer = document.getElementById('user-avatar-container');
     const userAvatarImg = document.getElementById('user-avatar-img');
@@ -15,18 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const showSignupLinks = document.querySelectorAll('.show-signup-modal');
     const showLoginLinks = document.querySelectorAll('.show-login-modal');
 
-    // --- Auth Functions ---
     const checkAuthStatus = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/users/current-user`, { credentials: 'include' });
             if (response.ok) {
-                currentUser = await response.json();
+                window.currentUser = await response.json();
                 if (loginButton) loginButton.classList.add('hidden');
                 if (userAvatarContainer) userAvatarContainer.classList.remove('hidden');
                 if (userAvatarImg) userAvatarImg.src = currentUser.avatarUrl || 'https://via.placeholder.com/150';
             }
         } catch (error) {
             console.error('Auth check failed:', error);
+        } finally {
+            document.dispatchEvent(new Event('auth-check-complete'));
         }
     };
 
@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/PUBLIC/home.html';
     };
 
-    // --- Modal Functions ---
     const openModal = (modal) => {
         if (!modal) return;
         modalBackdrop.classList.remove('hidden');
@@ -57,19 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 250);
     };
 
-    // --- Event Listeners ---
     if (loginButton) loginButton.addEventListener('click', () => openModal(loginModal));
     if (logoutButton) logoutButton.addEventListener('click', handleLogout);
     
-    // Dropdown click logic
     if (userAvatarImg) {
         userAvatarImg.addEventListener('click', (event) => {
             event.stopPropagation();
             if (dropdownMenu) dropdownMenu.classList.toggle('hidden');
         });
     }
-    
-    // Modal click logic
+
     if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
     closeModalButtons.forEach(btn => btn.addEventListener('click', closeModal));
     showSignupLinks.forEach(link => link.addEventListener('click', (e) => {
@@ -83,13 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => openModal(loginModal), 260);
     }));
     
-    // Close dropdown if clicking outside
     window.addEventListener('click', () => {
         if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
             dropdownMenu.classList.add('hidden');
         }
     });
 
-    // --- Initial Execution ---
     checkAuthStatus();
 });

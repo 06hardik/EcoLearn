@@ -1,15 +1,13 @@
 // This script runs AFTER auth.js
-document.addEventListener('DOMContentLoaded', () => {
-    // Note: API_BASE_URL and currentUser are available from auth.js
-
+document.addEventListener('auth-check-complete', () => {
+    const API_BASE_URL = 'http://localhost:8000/api';
+    const currentUser = window.currentUser;
     const initializePage = () => {
-        // --- Page Protection ---
         if (!currentUser) {
             window.location.href = './home.html';
             return;
         }
 
-        // --- Load Page Content ---
         loadMyCourses();
         loadFeaturedLessons();
         loadProgressOverview();
@@ -95,6 +93,5 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
     }
 
-    // --- Initial Execution ---
-    setTimeout(initializePage, 100); // Run this shortly after auth.js
+    setTimeout(initializePage, 100); 
 });

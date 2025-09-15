@@ -1,15 +1,14 @@
 // This script runs AFTER auth.js
-document.addEventListener('DOMContentLoaded', () => {
-    // Note: API_BASE_URL and currentUser are available from auth.js
+document.addEventListener('auth-check-complete', () => {
+    const API_BASE_URL = 'http://localhost:8000/api';
+    const currentUser = window.currentUser;
 
     const initializePage = () => {
-        // --- Page Protection ---
         if (!currentUser) {
-            window.location.href = '/home.html';
+            window.location.href = './home.html';
             return;
         }
 
-        // --- Handle Form Submission ---
         const surveyForm = document.getElementById('waste-survey-form');
         if (surveyForm) {
             surveyForm.addEventListener('submit', async (e) => {
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (response.ok) {
                         alert('Thank you! Your survey has been submitted.');
-                        window.location.href = '/leaderboard.html';
+                        window.location.href = './leaderboard.html';
                     } else {
                         const errorData = await response.json();
                         alert(`Submission Failed: ${errorData.message}`);
@@ -44,6 +43,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // --- Initial Execution ---
-    setTimeout(initializePage, 100); // Run this shortly after auth.js
+    setTimeout(initializePage, 100); 
 });
