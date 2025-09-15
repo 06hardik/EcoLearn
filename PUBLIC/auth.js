@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleLogout = async () => {
         await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
-        window.location.href = '/PUBLIC/index.html';
+        window.location.href = '/index.html';
     };
 
     const openModal = (modal) => {
