@@ -2,7 +2,7 @@ document.addEventListener('auth-check-complete', () => {
     const API_BASE_URL = 'http://localhost:8000/api';
     const currentUser = window.currentUser;
     if (!currentUser) {
-        window.location.href = '/home.html';
+        window.location.href = '/index.html';
         return;
     }
 

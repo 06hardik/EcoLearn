@@ -5,7 +5,7 @@ document.addEventListener('auth-check-complete', () => {
 
     const initializePage = () => {
         if (!currentUser) {
-            window.location.href = './home.html';
+            window.location.href = './index.html';
             return;
         }
 
