@@ -1,5 +1,5 @@
 document.addEventListener('auth-check-complete', () => {
-    const API_BASE_URL = 'https://ecolearn-8436.onrender.com';
+    const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
     if (!currentUser) {
         window.location.href = '/index.html';

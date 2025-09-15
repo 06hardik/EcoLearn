@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://ecolearn-8436.onrender.com';
+const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', () => {
