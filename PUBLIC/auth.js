@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleLogout = async () => {
         await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
-        currentUser = null;
+        window.currentUser = null;
         window.location.href = '/index.html';
     };
 
