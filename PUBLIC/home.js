@@ -1,5 +1,5 @@
 document.addEventListener('auth-check-complete', () => {
-    const API_BASE_URL = 'http://localhost:8000/api';
+    const API_BASE_URL = 'https://ecolearn-8436.onrender.com';
     const currentUser = window.currentUser;
 
     const fetchFeaturedCampaigns = async () => {

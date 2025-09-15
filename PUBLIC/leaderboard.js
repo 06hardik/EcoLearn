@@ -2,7 +2,7 @@ document.addEventListener('auth-check-complete', () => {
 
     const topVolunteersContainer = document.getElementById('top-volunteers-container');
     const rankingsTbody = document.getElementById('rankings-tbody');
-    const API_BASE_URL = 'http://localhost:8000/api';
+    const API_BASE_URL = 'https://ecolearn-8436.onrender.com';
     const currentUser = window.currentUser;
 
     const fetchLeaderboard = async () => {

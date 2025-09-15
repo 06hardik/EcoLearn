@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'https://ecolearn-8436.onrender.com';
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', () => {
