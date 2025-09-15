@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.currentUser = await response.json();
                 if (loginButton) loginButton.classList.add('hidden');
                 if (userAvatarContainer) userAvatarContainer.classList.remove('hidden');
-                if (userAvatarImg) userAvatarImg.src = currentUser.avatarUrl || 'https://via.placeholder.com/150';
+                if (userAvatarImg) userAvatarImg.src = currentUser.avatarUrl;
             }
         } catch (error) {
             console.error('Auth check failed:', error);
