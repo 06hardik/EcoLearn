@@ -118,6 +118,49 @@ document.addEventListener('auth-check-complete', () => {
             alert('An error occurred. Please try again.');
         }
     });
+
+    const avatarForm = document.getElementById('avatar-upload-form');
+const uploadButton = avatarForm.querySelector('button[type="submit"]');
+
+avatarForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const avatarFile = document.getElementById('avatar-file').files[0];
+    if (!avatarFile) {
+        alert('Please select a file to upload.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('avatar', avatarFile);
+
+    const originalButtonText = uploadButton.textContent;
+    uploadButton.disabled = true;
+    uploadButton.textContent = 'Uploading...';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/avatar`, {
+            method: 'PATCH',
+            body: formData,
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert('Avatar updated successfully!');
+            document.getElementById('profile-picture').src = data.user.avatarUrl;
+            document.getElementById('user-avatar-img').src = data.user.avatarUrl;
+        } else {
+            const error = await response.json();
+            alert(`Upload failed: ${error.message}`);
+        }
+    } catch (error) {
+        console.error('Avatar upload error:', error);
+        alert('An error occurred. The file might be too large or the connection is slow. Please try again.');
+    } finally {
+        uploadButton.disabled = false;
+        uploadButton.textContent = originalButtonText;
+    }
+});
     fetchUserProfile();
     fetchRecentActivity();
 });

@@ -9,8 +9,10 @@ import {
     updateCurrentUser,
     changePassword,
     getUserActivity,
+    updateUserAvatar,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
@@ -29,6 +31,7 @@ router.route("/me")
 
 router.route("/me/activity").get(verifyJWT, getUserActivity);
 router.route("/change-password").post(verifyJWT, changePassword);
+router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 export default router;
 

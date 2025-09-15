@@ -83,9 +83,16 @@
                     </div>
                     <button type="submit" class="w-full md:w-auto px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600">Save Changes</button>
                 </form>
-
                 <hr class="my-8">
-
+                <form id="avatar-upload-form" class="mt-6 space-y-4 pb-2">
+                     <h3 class="text-lg font-semibold text-gray-800">Update Profile Picture</h3>
+                     <div>
+                        <label for="avatar-file" class="block text-sm font-medium text-gray-700">Choose a new avatar</label>
+                        <input type="file" id="avatar-file" name="avatar" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100" required>
+                     </div>
+                     <button type="submit" class="w-full md:w-auto px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600">Upload Picture</button>
+                </form>
+                <hr class="my-8">
                 <form id="change-password-form" class="space-y-4">
                     <h3 class="text-lg font-semibold text-gray-800">Change Password</h3>
                     <div>
@@ -120,7 +127,7 @@
 </div>
 
 <script src="auth.js"></script>
-<script src="profile.js"></script>
+<script src="myProfile.js"></script>
 
 </body>
 </html>

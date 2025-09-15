@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler.js"; 
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -33,10 +34,8 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-const getCurrentUser = asyncHandler(async (req, res) => {
-    console.log('hi')
+const getCurrentUser = asyncHandler(async (req, res) =>{
     const user = await User.findById(req.user.id).select("-password");
-    console.log("hi11")
     res.status(200).json(user);
 });
 
@@ -165,6 +164,29 @@ const getUserActivity = asyncHandler(async (req, res) => {
     res.status(200).json(activities);
 });
 
+const updateUserAvatar = asyncHandler(async (req, res) => {
+    const avatarLocalPath = req.file?.path;
+    if (!avatarLocalPath) {
+        return res.status(400).json({ message: "Avatar file is missing" });
+    }
+
+    const avatar = await uploadToCloudinary(avatarLocalPath);
+    if (!avatar.url) {
+        return res.status(500).json({ message: "Error while uploading avatar" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { $set: { avatarUrl: avatar.url } },
+        { new: true }
+    ).select("-password");
+
+    return res.status(200)
+        .json({ 
+            message: "Avatar image updated successfully", 
+            user 
+        });
+});
 
 export {
     registerUser,
@@ -176,4 +198,5 @@ export {
     updateCurrentUser,
     changePassword,
     getUserActivity,
+    updateUserAvatar
 };
