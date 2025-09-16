@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const handleLogout = async () => {
-        await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
+        const resp = await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
+        console.log("logout response",resp);
         window.location.href = './index.html';
     };
 
