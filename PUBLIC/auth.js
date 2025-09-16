@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkAuthStatus = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/users/current-user`, { credentials: 'include' });
+            console.log(response);
            if (response.ok) {
                 window.currentUser = await response.json();
                 if (loginButton) loginButton.classList.add('hidden');
