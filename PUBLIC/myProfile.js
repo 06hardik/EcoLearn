@@ -7,7 +7,7 @@ document.addEventListener('auth-check-complete', () => {
     }
 
     const populateProfileData = (user) => {
-        document.getElementById('profile-picture').src = user.imageUrl || 'https://i.imgur.com/AV25K0m.png'; // Default image if none
+        document.getElementById('profile-picture').src = user.avatarUrl || 'https://i.imgur.com/AV25K0m.png'; // Default image if none
         document.getElementById('profile-name').textContent = user.name;
         document.getElementById('profile-email').textContent = user.email;
         const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
