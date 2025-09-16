@@ -1,4 +1,3 @@
-// This script runs AFTER auth.js
 document.addEventListener('auth-check-complete', () => {
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
@@ -9,7 +8,11 @@ document.addEventListener('auth-check-complete', () => {
             const response = await fetch(`${API_BASE_URL}/events`);
             if (!response.ok) throw new Error('Failed to fetch events');
             const events = await response.json();
-            
+        
+            if (events.length === 0) {
+                eventsContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">There are no upcoming events at this time. Please check back later!</p>';
+                return; 
+
             eventsContainer.innerHTML = ''; 
 
             events.forEach(event => {
@@ -36,7 +39,7 @@ document.addEventListener('auth-check-complete', () => {
             });
         } catch (error) {
             console.error(error);
-            eventsContainer.innerHTML = '<p>Could not load events at this time.</p>';
+            eventsContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">Could not load events at this time.</p>';
         }
     };
 
