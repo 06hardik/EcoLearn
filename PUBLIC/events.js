@@ -1,12 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
-window.authReady.then(currentUser=>{
+document.addEventListener('auth-check-complete', () => {
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
+    const currentUser = window.currentUser;
     const eventsContainer = document.getElementById('events-container');
         if (!eventsContainer) {
         return; 
     }
-     const impactForm = document.getElementById('impact-form');
-    const eventSelect = document.getElementById('impact-event');
 
     const fetchEvents = async () => {
         try {
@@ -19,16 +17,6 @@ window.authReady.then(currentUser=>{
                 return; 
             }
             eventsContainer.innerHTML = ''; 
-
-            if (eventSelect) {
-            eventSelect.innerHTML = '<option value="">-- Choose an event --</option>';
-            events.forEach(event => {
-                const option = document.createElement('option');
-                option.value = event._id;
-                option.textContent = event.title;
-                eventSelect.appendChild(option);
-            });
-        }
 
             events.forEach(event => {
                 const eventCard = document.createElement('div');
@@ -95,48 +83,5 @@ window.authReady.then(currentUser=>{
         }
     });
 
-    // if (impactForm) {
-    //     impactForm.addEventListener('submit', async (e) => {
-    //         e.preventDefault();
-    //         if (!currentUser) {
-    //             alert('You must be logged in to submit a photo.');
-    //             return;
-    //         }
-
-    //         const submitButton = impactForm.querySelector('button[type="submit"]');
-    //         submitButton.textContent = 'Uploading...';
-    //         submitButton.disabled = true;
-
-    //         const formData = new FormData();
-    //         formData.append('impactPhoto', document.getElementById('impact-photo').files[0]);
-    //         formData.append('event', document.getElementById('impact-event').value);
-    //         formData.append('caption', document.getElementById('impact-caption').value);
-
-    //         try {
-    //             const response = await fetch(`${API_BASE_URL}/submissions`, {
-    //                 method: 'POST',
-    //                 body: formData,
-    //                 credentials: 'include'
-    //             });
-
-    //             if (response.ok) {
-    //                 const result = await response.json();
-    //                 alert(result.message);
-    //                 impactForm.reset();
-    //             } else {
-    //                 const error = await response.json();
-    //                 alert(`Error: ${error.message}`);
-    //             }
-    //         } catch (error) {
-    //             alert('An error occurred during upload.');
-    //         } finally {
-    //             submitButton.textContent = 'Submit Photo';
-    //             submitButton.disabled = false;
-    //         }
-    //     });
-    // }
-
     fetchEvents();
 });
-});
-
