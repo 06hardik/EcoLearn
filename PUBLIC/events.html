@@ -55,16 +55,31 @@
             </div>
 
             <section class="mt-20">
-                <h2 class="text-[#0B120B] text-3xl font-bold text-center">Share Your Impact</h2>
-                <div class="mt-8 flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-[#A8D3A8] px-6 py-14 bg-white">
-                    <span class="material-symbols-outlined text-5xl text-[#17CF17]">cloud_upload</span>
-                    <p class="text-[#0B120B] text-xl font-bold">Upload Photos</p>
-                    <p class="text-[#4A644A] text-base text-center">Share your photos from events and campaigns to inspire others.</p>
-                    <button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-12 px-6 bg-[#17cf17] text-[#0B120B] text-base font-bold hover:bg-opacity-90">
-                        <span>Browse Files</span>
-                    </button>
-                </div>
-            </section>
+    <h2 class="text-[#0B120B] text-3xl font-bold text-center">Share Your Impact</h2>
+    <form id="impact-form" class="mt-8 flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-[#A8D3A8] px-6 py-14 bg-white">
+        <span class="material-symbols-outlined text-5xl text-[#17CF17]">cloud_upload</span>
+        <p class="text-[#0B120B] text-xl font-bold">Upload Your Photo</p>
+        <div class="w-full max-w-md space-y-4">
+            <div>
+                <label for="impact-photo" class="block text-sm font-medium text-gray-700">Photo File</label>
+                <input type="file" id="impact-photo" name="impactPhoto" accept="image/*" required class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200"/>
+            </div>
+            <div>
+                <label for="impact-event" class="block text-sm font-medium text-gray-700">Select Event</label>
+                <select id="impact-event" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    <option value="">-- Choose an event --</option>
+                    </select>
+            </div>
+            <div>
+                <label for="impact-caption" class="block text-sm font-medium text-gray-700">Caption (Optional)</label>
+                <textarea id="impact-caption" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-md h-12 px-6 bg-[#17CF17] text-[#0B120B] text-base font-bold hover:bg-opacity-90">
+            <span class="truncate">Submit Photo</span>
+        </button>
+    </form>
+</section>
         </div>
     </main>
 </div>
