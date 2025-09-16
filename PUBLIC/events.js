@@ -7,6 +7,8 @@ document.addEventListener('auth-check-complete', () => {
     }
 
     const fetchEvents = async () => {
+        const eventsContainer = document.getElementById('events-container');
+        const eventSelect = document.getElementById('impact-event'); 
         try {
             const response = await fetch(`${API_BASE_URL}/events`);
             if (!response.ok) throw new Error('Failed to fetch events');
@@ -17,6 +19,16 @@ document.addEventListener('auth-check-complete', () => {
                 return; 
             }
             eventsContainer.innerHTML = ''; 
+
+            if (eventSelect) {
+            eventSelect.innerHTML = '<option value="">-- Choose an event --</option>';
+            events.forEach(event => {
+                const option = document.createElement('option');
+                option.value = event._id;
+                option.textContent = event.title;
+                eventSelect.appendChild(option);
+            });
+        }
 
             events.forEach(event => {
                 const eventCard = document.createElement('div');
