@@ -5,10 +5,10 @@ document.addEventListener('auth-check-complete', () => {
         if (!eventsContainer) {
         return; 
     }
+     const impactForm = document.getElementById('impact-form');
+    const eventSelect = document.getElementById('impact-event');
 
     const fetchEvents = async () => {
-        const eventsContainer = document.getElementById('events-container');
-        const eventSelect = document.getElementById('impact-event'); 
         try {
             const response = await fetch(`${API_BASE_URL}/events`);
             if (!response.ok) throw new Error('Failed to fetch events');
