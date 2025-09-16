@@ -1,4 +1,5 @@
-document.addEventListener('auth-check-complete', () => {
+document.addEventListener('DOMContentLoaded', () => {
+window.authReady.then(currentUser=>{
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
     const eventsContainer = document.getElementById('events-container');
@@ -138,3 +139,5 @@ document.addEventListener('auth-check-complete', () => {
 
     fetchEvents();
 });
+});
+
