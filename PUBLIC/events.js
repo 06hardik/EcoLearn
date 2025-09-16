@@ -5,7 +5,7 @@ document.addEventListener('auth-check-complete', () => {
         if (!eventsContainer) {
         return; 
     }
-
+const eventSelect = document.getElementById('impact-event');
     const fetchEvents = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/events`);
@@ -18,6 +18,16 @@ document.addEventListener('auth-check-complete', () => {
             }
             eventsContainer.innerHTML = ''; 
 
+if (eventSelect) {
+            eventSelect.innerHTML = '<option value="">-- Choose an event --</option>';
+            events.forEach(event => {
+                const option = document.createElement('option');
+                option.value = event._id;
+                option.textContent = event.title;
+                eventSelect.appendChild(option);
+            });
+        }
+            
             events.forEach(event => {
                 const eventCard = document.createElement('div');
                 eventCard.className = 'flex flex-col rounded-lg bg-white border border-[#E0E0E0] shadow-sm overflow-hidden transform hover:-translate-y-1 transition-transform duration-300';
@@ -27,6 +37,8 @@ document.addEventListener('auth-check-complete', () => {
                     month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit'
                 });
 
+                    
+                
                 eventCard.innerHTML = `
                     <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style="background-image: url('${event.imageUrl}');"></div>
                     <div class="p-5 flex flex-col flex-1">
