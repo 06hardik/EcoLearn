@@ -73,8 +73,16 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const logoutUser = asyncHandler(async (req, res) => {
-    res.clearCookie('token');
-    res.status(200).json({ message: "User logged out successfully" });
+    const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+    domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined,
+};
+    return res
+        .status(200)
+        .clearCookie('token', cookieOptions)
+        .json({ message: "User logged out successfully" });
 });
 
 const submitSurvey = asyncHandler(async (req, res) => {
