@@ -34,7 +34,7 @@ const getSubmissionsForEvent = asyncHandler(async (req, res) => {
     const { eventId } = req.params;
     
     const submissions = await Submission.find({ event: eventId })
-        .populate("user", "name avatarUrl");
+        .populate("user", "name avatarUrl")
         .sort({ createdAt: -1 });
 
     if (!submissions) {
