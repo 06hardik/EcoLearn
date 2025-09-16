@@ -1,7 +1,7 @@
 import { Submission } from "../models/submission.model.js";
 import { Event } from "../models/event.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 const createSubmission = asyncHandler(async (req, res) => {
     const { event, caption } = req.body;
@@ -12,7 +12,7 @@ const createSubmission = asyncHandler(async (req, res) => {
     }
 
     const photoLocalPath = req.file.path;
-    const cloudinaryResponse = await uploadOnCloudinary(photoLocalPath);
+    const cloudinaryResponse = await uploadToCloudinary(photoLocalPath);
 
     if (!cloudinaryResponse || !cloudinaryResponse.url) {
         return res.status(500).json({ message: "Failed to upload photo to the cloud" });
