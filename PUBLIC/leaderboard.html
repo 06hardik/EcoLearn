@@ -15,34 +15,31 @@
 </head>
 <body class="bg-[#f7fcf7]">
 <div class="relative flex min-h-screen w-full flex-col" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-[#e7f3e7] px-10 py-3 bg-white shadow-sm">
-        <div class="flex items-center gap-3 text-[#0e1b0e]">
-             <a href="./index.html" class="flex items-center gap-3">
-                <div class="size-8 text-[#17cf17]">
-                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path></svg>
-                </div>
-                <h2 class="text-[#0e1b0e] text-xl font-bold">EcoAction</h2>
-            </a>
-        </div>
-        <div class="flex flex-1 justify-end items-center gap-6">
-            <nav class="hidden lg:flex items-center gap-6">
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3">
+    <div class="flex items-center gap-3 text-gray-800">
+        <a href="./index.html" class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
+            <h2 class="text-gray-800 text-xl font-bold">EcoLearn</h2>
+        </a>
+    </div>
+     <nav class="hidden lg:flex items-center gap-6">
                 <a class="text-gray-600 hover:text-[#17cf17] text-sm font-medium" href="./index.html">Home</a>
                 <a class="text-gray-600 hover:text-[#17cf17] text-sm font-medium" href="#">About</a>
                 <a class="text-gray-600 hover:text-[#17cf17] text-sm font-medium" href="./events.html">Programs</a>
             </nav>
-            <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
-                <span>Login</span>
-            </button>
-            <div id="user-avatar-container" class="hidden relative">
-                <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
-                <div class="dropdown-menu absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                    <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                    <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-                </div>
+    <div class="flex items-center gap-2">
+        <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
+            <span>Login</span>
+        </button>
+        <div id="user-avatar-container" class="hidden relative">
+            <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
+            <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
             </div>
         </div>
+    </div>
     </header>
-
     <main class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-10">
         <div class="flex flex-col max-w-[960px] flex-1 gap-8">
             <div class="flex flex-col items-center text-center gap-2">
