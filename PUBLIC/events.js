@@ -2,6 +2,9 @@ document.addEventListener('auth-check-complete', () => {
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
     const eventsContainer = document.getElementById('events-container');
+        if (!eventsContainer) {
+        return; 
+    }
 
     const fetchEvents = async () => {
         try {
@@ -12,7 +15,7 @@ document.addEventListener('auth-check-complete', () => {
             if (events.length === 0) {
                 eventsContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">There are no upcoming events at this time. Please check back later!</p>';
                 return; 
-
+            }
             eventsContainer.innerHTML = ''; 
 
             events.forEach(event => {
