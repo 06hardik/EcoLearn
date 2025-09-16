@@ -95,5 +95,46 @@ document.addEventListener('auth-check-complete', () => {
         }
     });
 
+    if (impactForm) {
+        impactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                alert('You must be logged in to submit a photo.');
+                return;
+            }
+
+            const submitButton = impactForm.querySelector('button[type="submit"]');
+            submitButton.textContent = 'Uploading...';
+            submitButton.disabled = true;
+
+            const formData = new FormData();
+            formData.append('impactPhoto', document.getElementById('impact-photo').files[0]);
+            formData.append('event', document.getElementById('impact-event').value);
+            formData.append('caption', document.getElementById('impact-caption').value);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/submissions`, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message);
+                    impactForm.reset();
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.message}`);
+                }
+            } catch (error) {
+                alert('An error occurred during upload.');
+            } finally {
+                submitButton.textContent = 'Submit Photo';
+                submitButton.disabled = false;
+            }
+        });
+    }
+
     fetchEvents();
 });
