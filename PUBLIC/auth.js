@@ -1,7 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
 const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
-let currentUser = window.currentUser;
+window.currentUser=null;
 
+document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('login-button');
     const userAvatarContainer = document.getElementById('user-avatar-container');
     const userAvatarImg = document.getElementById('user-avatar-img');
@@ -17,14 +17,21 @@ let currentUser = window.currentUser;
     const checkAuthStatus = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/users/current-user`, { credentials: 'include' });
-            if (response.ok) {
+           if (response.ok) {
                 window.currentUser = await response.json();
                 if (loginButton) loginButton.classList.add('hidden');
                 if (userAvatarContainer) userAvatarContainer.classList.remove('hidden');
-                if (userAvatarImg) userAvatarImg.src = currentUser.avatarUrl;
+                if (userAvatarImg) userAvatarImg.src = window.currentUser.avatarUrl || 'https://via.placeholder.com/150';
+            } else {
+                window.currentUser = null;
+                if (loginButton) loginButton.classList.remove('hidden');
+                if (userAvatarContainer) userAvatarContainer.classList.add('hidden');
             }
         } catch (error) {
             console.error('Auth check failed:', error);
+            window.currentUser = null;
+            if (loginButton) loginButton.classList.remove('hidden');
+            if (userAvatarContainer) userAvatarContainer.classList.add('hidden');
         } finally {
             document.dispatchEvent(new Event('auth-check-complete'));
         }
@@ -32,8 +39,7 @@ let currentUser = window.currentUser;
 
     const handleLogout = async () => {
         await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
-        window.currentUser = null;
-        window.location.href = '/index.html';
+        window.location.href = './index.html';
     };
 
     const openModal = (modal) => {
