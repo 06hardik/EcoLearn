@@ -9,55 +9,156 @@
     <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style>
+        body {
+            background: linear-gradient(120deg, #e0ffe0, #f0f9ff, #e0ffe0);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+        }
+        @keyframes gradientBG {
+            0%,100% {background-position:0% 50%;}
+            50% {background-position:100% 50%;}
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.8);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.7);}
+            60% { opacity: 1; transform: scale(1.1);}
+            80% { transform: scale(0.95);}
+            100% { transform: scale(1);}
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.12);}
+        }
+        .animate-slideInLeft { animation: slideInLeft 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-fadeInUp { animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-scaleUp { animation: scaleUp 0.8s cubic-bezier(.4,0,.2,1) both;}
+        .animate-bounceIn { animation: bounceIn 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-pulse { animation: pulse 1.5s infinite;}
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1s; }
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-ripple:after {
+            content: "";
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.4);
+            border-radius: 100%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 1;
+        }
+        .btn-ripple:active:after {
+            width: 200px; height: 200px;
+            transition: 0s;
+        }
+        .btn-ripple:hover {
+            animation: bounceBtn 0.4s both;
+        }
+        @keyframes bounceBtn {
+            0% {transform: scale(1);}
+            30% {transform: scale(1.08);}
+            50% {transform: scale(0.95);}
+            100% {transform: scale(1);}
+        }
+        .card-animated {
+            transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+        }
+        .card-animated:hover {
+            box-shadow: 0 0 32px 4px #22c55e55, 0 12px 32px rgba(34,197,94,0.18);
+            transform: translateY(-6px) scale(1.07) rotate(-2deg);
+            border-color: #22c55e;
+        }
+        .fade-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .fade-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         .dropdown-menu { display: none; }
         #user-avatar-container:hover .dropdown-menu { display: block; }
     </style>
 </head>
 <body class="bg-[#f7fcf7]">
 <div class="relative flex min-h-screen w-full flex-col" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3">
-    <div class="flex items-center gap-3 text-gray-800">
-        <a href="./index.html" class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
-            <h2 class="text-gray-800 text-xl font-bold">EcoLearn</h2>
-        </a>
-    </div>
-     <nav class="hidden lg:flex items-center gap-6">
-                <a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="./index.html">Home</a>
-                <a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="#">About</a>
-                <a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="./events.html">Programs</a>
-            </nav>
-    <div class="flex items-center gap-2">
-        <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
-            <span>Login</span>
-        </button>
-        <div id="user-avatar-container" class="hidden relative">
-            <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
-            <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3 shadow-lg rounded-b-xl bg-white/90 sticky top-0 z-30 animate-slideInLeft delay-0 fade-scroll">
+        <div class="flex items-center gap-3 text-gray-800">
+            <a href="./index.html" class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
+                <h2 class="text-gray-800 text-xl font-bold tracking-wide animate-pulse">EcoLearn</h2>
+            </a>
+        </div>
+        <nav class="hidden lg:flex items-center gap-8">
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./learning.html"><span class="material-symbols-outlined text-base animate-pulse">school</span>Learn</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./events.html"><span class="material-symbols-outlined text-base animate-pulse">event</span>Campaigns</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./leaderboard.html"><span class="material-symbols-outlined text-base animate-pulse">leaderboard</span>Leaderboard</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./ecommerce.html"><span class="material-symbols-outlined text-base animate-pulse">shopping_cart</span>Shop</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./Waste.html"><span class="material-symbols-outlined text-base animate-pulse">recycling</span>Survey</a>
+        </nav>
+        <div class="flex items-center gap-2">
+            <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white text-sm font-bold hover:from-green-600 hover:to-green-500 shadow-lg transition-all btn-ripple animate-bounceIn delay-2">
+                <span class="material-symbols-outlined mr-2 animate-pulse">login</span>
+                <span>Login</span>
+            </button>
+            <div id="user-avatar-container" class="hidden relative">
+                <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
+                <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                    <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                    <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+                </div>
             </div>
         </div>
-    </div>
     </header>
     <main class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-10">
         <div class="flex flex-col max-w-[960px] flex-1 gap-8">
-            <div class="flex flex-col items-center text-center gap-2">
-                <p class="text-[#0e1b0e] text-4xl font-bold">Leaderboard</p>
-                <p class="text-gray-500 text-base max-w-lg">Track your progress, see how you rank against other eco-warriors, and get inspired to make a greater impact.</p>
+            <div class="flex flex-col items-center text-center gap-2 fade-scroll">
+                <p class="text-[#0e1b0e] text-4xl font-bold animate-slideInLeft delay-1">Leaderboard</p>
+                <p class="text-gray-500 text-base max-w-lg animate-fadeInUp delay-2">Track your progress, see how you rank against other eco-warriors, and get inspired to make a greater impact.</p>
             </div>
             
             <div>
-                <h2 class="text-[#0e1b0e] text-2xl font-bold px-4 pb-4 pt-5">Top Volunteers</h2>
+                <h2 class="text-[#0e1b0e] text-2xl font-bold px-4 pb-4 pt-5 animate-slideInLeft delay-2 fade-scroll">Top Volunteers</h2>
                 <div id="top-volunteers-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <p>Loading top volunteers...</p>
+                    <div class="card-animated rounded-xl p-6 bg-green-50 border border-green-100 animate-scaleUp delay-2 fade-scroll">
+                        <p class="text-green-800 text-lg font-medium leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">emoji_events</span>Volunteer Name</p>
+                        <p class="text-green-600 tracking-light text-2xl font-bold leading-tight">Points: 1200</p>
+                    </div>
+                    <div class="card-animated rounded-xl p-6 bg-green-50 border border-green-100 animate-scaleUp delay-3 fade-scroll">
+                        <p class="text-green-800 text-lg font-medium leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">emoji_events</span>Volunteer Name</p>
+                        <p class="text-green-600 tracking-light text-2xl font-bold leading-tight">Points: 1100</p>
+                    </div>
+                    <div class="card-animated rounded-xl p-6 bg-green-50 border border-green-100 animate-scaleUp delay-4 fade-scroll">
+                        <p class="text-green-800 text-lg font-medium leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">emoji_events</span>Volunteer Name</p>
+                        <p class="text-green-600 tracking-light text-2xl font-bold leading-tight">Points: 1050</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4">
-                <h2 class="text-[#0e1b0e] text-2xl font-bold px-4 pt-5">User Rankings</h2>
-                <div class="overflow-x-auto">
-                    <div class="rounded-lg border border-[#d0e7d0] bg-white shadow-sm">
+            <div class="flex flex-col gap-4 fade-scroll">
+                <h2 class="text-[#0e1b0e] text-2xl font-bold px-4 pt-5 animate-slideInLeft delay-3">User Rankings</h2>
+                <div class="overflow-x-auto animate-fadeInUp delay-4">
+                    <div class="rounded-lg border border-[#d0e7d0] bg-white shadow-sm card-animated">
                         <table class="w-full text-left">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -68,7 +169,9 @@
                                 </tr>
                             </thead>
                             <tbody id="rankings-tbody" class="divide-y divide-gray-200">
-                                <tr><td colspan="4" class="text-center p-4">Loading rankings...</td></tr>
+                                <tr class="animate-scaleUp delay-5 fade-scroll"><td>1</td><td>User A</td><td>900</td><td>Tree Planting</td></tr>
+                                <tr class="animate-scaleUp delay-5 fade-scroll"><td>2</td><td>User B</td><td>850</td><td>Clean Up</td></tr>
+                                <tr class="animate-scaleUp delay-5 fade-scroll"><td>3</td><td>User C</td><td>800</td><td>Education</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -76,41 +179,56 @@
             </div>
         </div>
     </main>
-    <footer class="bg-white border-t border-solid border-t-[#E0E0E0]">
-<div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-<div class="flex justify-center space-x-6">
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">About</a>
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">Contact</a>
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">Privacy Policy</a>
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">Terms of Service</a>
-</div>
-<div class="mt-8 flex justify-center space-x-6">
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">
-<span class="sr-only">Twitter</span>
-<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-</svg>
-</a>
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">
-<span class="sr-only">Facebook</span>
-<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-<path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
-</svg>
-</a>
-<a class="text-[#4A644A] hover:text-[#0B120B]" href="#">
-<span class="sr-only">Instagram</span>
-<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-<path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.147 2 12.315 2zm0 1.623c-2.403 0-2.73.01-3.685.058-.94.045-1.503.207-1.938.37A3.279 3.279 0 004.9 5.378a3.279 3.279 0 00-.866 1.938c-.164.435-.325 1-.37 1.938-.048.955-.058 1.282-.058 3.685s.01 2.73.058 3.685c.045.94.207 1.503.37 1.938a3.279 3.279 0 00.866 1.938 3.279 3.279 0 001.938.866c.435.164 1 .325 1.938.37.955.048 1.282.058 3.685.058s2.73-.01 3.685-.058c.94-.045 1.503-.207 1.938-.37a3.279 3.279 0 001.938-.866 3.279 3.279 0 00.866-1.938c.164-.435.325-1 .37-1.938.048-.955.058-1.282.058-3.685s-.01-2.73-.058-3.685c-.045-.94-.207-1.503-.37-1.938a3.279 3.279 0 00-.866-1.938 3.279 3.279 0 00-1.938-.866c-.435-.164-1-.325-1.938-.37-.955-.048-1.282-.058-3.685-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.623a3.512 3.512 0 100 7.024 3.512 3.512 0 000-7.024zM16.338 5.42a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z" fill-rule="evenodd"></path>
-</svg>
-</a>
-</div>
-<p class="mt-8 text-center text-base text-[#4A644A]">© 2024 EcoAction. All rights reserved.</p>
-</div>
-</footer>
+    <footer class="bg-white border-t border-solid border-t-[#E0E0E0] animate-fadeInUp delay-5 fade-scroll">
+        <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+            <div class="flex justify-center space-x-6">
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">About</a>
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">Contact</a>
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">Privacy Policy</a>
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">Terms of Service</a>
+            </div>
+            <div class="mt-8 flex justify-center space-x-6">
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">
+                    <span class="sr-only">Twitter</span>
+                    <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                    </svg>
+                </a>
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">
+                    <span class="sr-only">Facebook</span>
+                    <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+                    </svg>
+                </a>
+                <a class="text-[#4A644A] hover:text-[#0B120B]" href="#">
+                    <span class="sr-only">Instagram</span>
+                    <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.147 2 12.315 2zm0 1.623c-2.403 0-2.73.01-3.685.058-.94.045-1.503.207-1.938.37A3.279 3.279 0 004.9 5.378a3.279 3.279 0 00-.866 1.938c-.164.435-.325 1-.37 1.938-.048.955-.058 1.282-.058 3.685s.01 2.73.058 3.685c.045.94.207 1.503.37 1.938a3.279 3.279 0 00.866 1.938 3.279 3.279 0 001.938.866c.435.164 1 .325 1.938.37.955.048 1.282.058 3.685.058s2.73-.01 3.685-.058c.94-.045 1.503-.207 1.938-.37a3.279 3.279 0 001.938-.866 3.279 3.279 0 00.866-1.938c.164-.435.325-1 .37-1.938.048-.955.058-1.282.058-3.685s-.01-2.73-.058-3.685c-.045-.94-.207-1.503-.37-1.938a3.279 3.279 0 00-.866-1.938 3.279 3.279 0 00-1.938-.866c-.435-.164-1-.325-1.938-.37-.955-.048-1.282-.058-3.685-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.623a3.512 3.512 0 100 7.024 3.512 3.512 0 000-7.024zM16.338 5.42a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z" fill-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+            <p class="mt-8 text-center text-base text-[#4A644A]">© 2024 EcoAction. All rights reserved.</p>
+        </div>
+    </footer>
 </div>
 
 <script src="auth.js"></script>
 <script src="leaderboard.js"></script>
-
+<script>
+  // Fade-in on scroll for sections
+  document.addEventListener("DOMContentLoaded", function() {
+    const fadeEls = document.querySelectorAll('.fade-scroll');
+    function checkFade() {
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 60) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkFade);
+    checkFade();
+  });
+</script>
 </body>
 </html>

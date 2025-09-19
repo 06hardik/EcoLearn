@@ -4,109 +4,189 @@
     <meta charset="utf-8"/>
     <title>Waste Generation Survey</title>
     <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Public+Sans%3Awght%40400%3B500%3B700%3B900" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Public+Sans:wght@400;500;700;900" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style>
+        body {
+            background: linear-gradient(120deg, #e0ffe0, #f0f9ff, #e0ffe0);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+        }
+        @keyframes gradientBG {
+            0%,100% {background-position:0% 50%;}
+            50% {background-position:100% 50%;}
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.8);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.7);}
+            60% { opacity: 1; transform: scale(1.1);}
+            80% { transform: scale(0.95);}
+            100% { transform: scale(1);}
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.12);}
+        }
+        .animate-slideInLeft { animation: slideInLeft 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-fadeInUp { animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-scaleUp { animation: scaleUp 0.8s cubic-bezier(.4,0,.2,1) both;}
+        .animate-bounceIn { animation: bounceIn 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-pulse { animation: pulse 1.5s infinite;}
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1s; }
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-ripple:after {
+            content: "";
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.4);
+            border-radius: 100%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 1;
+        }
+        .btn-ripple:active:after {
+            width: 200px; height: 200px;
+            transition: 0s;
+        }
+        .btn-ripple:hover {
+            animation: bounceBtn 0.4s both;
+        }
+        @keyframes bounceBtn {
+            0% {transform: scale(1);}
+            30% {transform: scale(1.08);}
+            50% {transform: scale(0.95);}
+            100% {transform: scale(1);}
+        }
+        .card-animated {
+            transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+        }
+        .card-animated:hover {
+            box-shadow: 0 0 32px 4px #22c55e55, 0 12px 32px rgba(34,197,94,0.18);
+            transform: translateY(-6px) scale(1.07) rotate(-2deg);
+            border-color: #22c55e;
+        }
+        .fade-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .fade-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         .dropdown-menu { display: none; }
         #user-avatar-container:hover .dropdown-menu { display: block; }
     </style>
 </head>
 <body>
-<div class="relative flex min-h-screen w-full flex-col bg-white" style="font-family: &quot;Public Sans&quot;, &quot;Noto Sans&quot;, sans-serif;">
+<div class="relative flex min-h-screen w-full flex-col bg-white" style="font-family: 'Public Sans', 'Noto Sans', sans-serif;">
 <div class="flex h-full grow flex-col">
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3">
-    <div class="flex items-center gap-3 text-gray-800">
-        <a href="./index.html" class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
-            <h2 class="text-gray-800 text-xl font-bold">EcoLearn</h2>
-        </a>
-    </div>
-    <nav class="hidden lg:flex items-center gap-8">
-<a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="./index.html">Home</a>
-<a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="#">About</a>
-<a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="./events.html">Programs</a>
-<a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="#">Resources</a>
-<a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="#">Contact</a>
-    </nav>
-    <div class="flex items-center gap-2">
-        <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
-            <span>Login</span>
-        </button>
-        <div id="user-avatar-container" class="hidden relative">
-            <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
-            <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3 shadow-lg rounded-b-xl bg-white/90 sticky top-0 z-30 animate-slideInLeft delay-0 fade-scroll">
+        <div class="flex items-center gap-3 text-gray-800">
+            <a href="./index.html" class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
+                <h2 class="text-gray-800 text-xl font-bold tracking-wide animate-pulse">EcoLearn</h2>
+            </a>
+        </div>
+        <nav class="hidden lg:flex items-center gap-8">
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./learning.html"><span class="material-symbols-outlined text-base animate-pulse">school</span>Learn</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./events.html"><span class="material-symbols-outlined text-base animate-pulse">event</span>Campaigns</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./leaderboard.html"><span class="material-symbols-outlined text-base animate-pulse">leaderboard</span>Leaderboard</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./ecommerce.html"><span class="material-symbols-outlined text-base animate-pulse">shopping_cart</span>Shop</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./Waste.html"><span class="material-symbols-outlined text-base animate-pulse">recycling</span>Survey</a>
+        </nav>
+        <div class="flex items-center gap-2">
+            <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white text-sm font-bold hover:from-green-600 hover:to-green-500 shadow-lg transition-all btn-ripple animate-bounceIn delay-2">
+                <span class="material-symbols-outlined mr-2 animate-pulse">login</span>
+                <span>Login</span>
+            </button>
+            <div id="user-avatar-container" class="hidden relative">
+                <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
+                <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                    <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                    <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-
+    </header>
     <main class="flex flex-1 justify-center py-10 bg-gray-50/50">
-        <div class="w-full max-w-2xl">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200/80 p-8">
-                <div class="flex gap-4 justify-between items-center">
-                    <p class="text-slate-600 text-sm font-medium">Step 1 of 4</p>
-                    <div class="flex items-center gap-2">
-                        <div class="h-1.5 w-10 rounded-full bg-[#17cf17]"></div>
-                        <div class="h-1.5 w-10 rounded-full bg-gray-200"></div>
-                        <div class="h-1.5 w-10 rounded-full bg-gray-200"></div>
-                        <div class="h-1.5 w-10 rounded-full bg-gray-200"></div>
-                    </div>
+        <div class="max-w-2xl w-full mx-auto fade-scroll">
+            <div class="mb-8 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-green-800 animate-slideInLeft delay-1">Waste Generation Survey</h1>
+                <p class="mt-2 text-lg text-green-700 animate-fadeInUp delay-2">Help us understand and reduce waste by sharing your household data.</p>
+            </div>
+            <form class="bg-white rounded-xl shadow-lg p-8 border border-green-100 card-animated animate-scaleUp delay-3">
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" for="household-size">Household Size</label>
+                    <input class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 transition-all" type="number" id="household-size" min="1" required>
                 </div>
-                <div class="text-center py-6">
-                    <h1 class="text-slate-900 text-3xl font-bold tracking-tight">Waste Generation Survey</h1>
-                    <p class="text-slate-600 text-base mt-2">Help us understand your waste habits to provide personalized solutions for a greener lifestyle.</p>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" for="waste-amount">Average Daily Waste (kg)</label>
+                    <input class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 transition-all" type="number" id="waste-amount" min="0" step="0.1" required>
                 </div>
-                <form id="waste-survey-form" class="flex flex-col gap-6 mt-4">
-                    <div class="flex flex-col gap-2">
-                        <label class="text-slate-800 text-sm font-medium" for="household-size">Household Size</label>
-                        <select required class="form-select flex w-full h-12 px-3 rounded-md text-slate-700 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#17cf17]" id="household-size">
-                            <option value="">Select number of people</option>
-                            <option value="1">1 person</option>
-                            <option value="2">2 people</option>
-                            <option value="3">3 people</option>
-                            <option value="4">4 people</option>
-                            <option value="5">5+ people</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-slate-800 text-sm font-medium" for="collection-frequency">Waste Collection Frequency</label>
-                        <select required class="form-select flex w-full h-12 px-3 rounded-md text-slate-700 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#17cf17]" id="collection-frequency">
-                            <option value="">Select frequency</option>
-                            <option value="Daily">Daily</option>
-                            <option value="Weekly">Weekly</option>
-                            <option value="Bi-weekly">Bi-weekly</option>
-                            <option value="Monthly">Monthly</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-slate-800 text-sm font-medium" for="recycling-practices">Recycling Practices</label>
-                        <select required class="form-select flex w-full h-12 px-3 rounded-md text-slate-700 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#17cf17]" id="recycling-practices">
-                            <option value="">Select your recycling habits</option>
-                            <option value="Always">I always recycle</option>
-                            <option value="Sometimes">I sometimes recycle</option>
-                            <option value="Rarely">I rarely recycle</option>
-                            <option value="Never">I never recycle</option>
-                        </select>
-                    </div>
-                    <div class="flex pt-6 justify-end">
-                        <button type="submit" class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center rounded-md h-12 px-6 bg-[#17cf17] text-white text-base font-bold hover:bg-green-600 transition-colors">
-                            <span class="truncate">Submit Survey</span>
-                            <span class="material-symbols-outlined ml-2">arrow_forward</span>
-                        </button>
-                    </div>
-                </form>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" for="waste-type">Main Waste Type</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 transition-all" id="waste-type" required>
+                        <option value="">Select type</option>
+                        <option value="organic">Organic</option>
+                        <option value="plastic">Plastic</option>
+                        <option value="paper">Paper</option>
+                        <option value="metal">Metal</option>
+                        <option value="glass">Glass</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full flex justify-center py-3 px-4 rounded-md shadow-sm text-sm font-bold text-white bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 transition-all btn-ripple animate-bounceIn delay-4">
+                    Submit Survey
+                </button>
+            </form>
+            <div class="mt-8 text-center fade-scroll">
+                <span class="material-symbols-outlined text-5xl text-green-600 animate-pulse">recycling</span>
+                <h2 class="text-xl font-bold text-green-700 mt-2 animate-fadeInUp delay-5">Thank you for contributing to a cleaner planet!</h2>
             </div>
         </div>
     </main>
 </div>
 </div>
-
 <script src="auth.js"></script>
 <script src="waste.js"></script>
-
+<script>
+  // Fade-in on scroll for sections
+  document.addEventListener("DOMContentLoaded", function() {
+    const fadeEls = document.querySelectorAll('.fade-scroll');
+    function checkFade() {
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 60) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkFade);
+    checkFade();
+  });
+</script>
 </body>
 </html>

@@ -1,364 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <title>ECO Home</title>
-    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Public+Sans:wght@400;500;700;900" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <style>
-      /* Advanced Animations */
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(40px);}
-        to { opacity: 1; transform: translateY(0);}
-      }
-      @keyframes fadeIn {
-        from { opacity: 0;}
-        to { opacity: 1;}
-      }
-      @keyframes pulse {
-        0%, 100% { transform: scale(1);}
-        50% { transform: scale(1.08);}
-      }
-      @keyframes spin { 100% { transform: rotate(360deg); } }
-      .animate-fadeInUp { animation: fadeInUp 0.8s cubic-bezier(.4,0,.2,1) both;}
-      .animate-fadeIn { animation: fadeIn 1s cubic-bezier(.4,0,.2,1) both;}
-      .animate-pulse { animation: pulse 1.5s infinite;}
-      .icon-spin { animation: spin 2s linear infinite;}
-      /* Ripple effect for buttons */
-      .btn-ripple {
-        position: relative;
-        overflow: hidden;
-      }
-      .btn-ripple:after {
-        content: "";
-        position: absolute;
-        left: 50%; top: 50%;
-        width: 0; height: 0;
-        background: rgba(255,255,255,0.4);
-        border-radius: 100%;
-        transform: translate(-50%, -50%);
-        transition: width 0.4s ease, height 0.4s ease;
-        z-index: 1;
-      }
-      .btn-ripple:active:after {
-        width: 200px; height: 200px;
-        transition: 0s;
-      }
-      /* Card hover effect */
-      .card-animated {
-        transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
-      }
-      .card-animated:hover {
-        box-shadow: 0 12px 32px rgba(34,197,94,0.18);
-        transform: translateY(-6px) scale(1.04) rotate(-1deg);
-        border-color: #22c55e;
-      }
-      /* Modal animation & glassmorphism */
-      .modal-content-animated {
-        animation: fadeInUp 0.5s cubic-bezier(.4,0,.2,1);
-        background: rgba(255,255,255,0.85);
-        backdrop-filter: blur(12px) saturate(180%);
-        box-shadow: 0 8px 32px rgba(34,197,94,0.18);
-        border: 1px solid rgba(34,197,94,0.15);
-      }
-      /* Staggered animation delays */
-      .delay-0 { animation-delay: 0s; }
-      .delay-1 { animation-delay: 0.15s; }
-      .delay-2 { animation-delay: 0.3s; }
-      .delay-3 { animation-delay: 0.45s; }
-      .delay-4 { animation-delay: 0.6s; }
-      .delay-5 { animation-delay: 0.75s; }
-      .dropdown-menu { display: none; }
-      #user-avatar-container:hover .dropdown-menu { display: block; }
-      #modal-backdrop {
-        backdrop-filter: blur(4px);
-      }
-    </style>
-</head>
-<body>
-<div class="relative flex min-h-screen w-full flex-col bg-gradient-to-br from-green-50 via-slate-50 to-green-100" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
-<div class="flex h-full grow flex-col">
-<header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3 shadow-lg rounded-b-xl bg-white/90 sticky top-0 z-30 animate-fadeInUp delay-0">
-    <div class="flex items-center gap-3 text-gray-800">
-        <a href="./index.html" class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-3xl text-green-600 icon-spin">eco</span>
-            <h2 class="text-gray-800 text-xl font-bold tracking-wide animate-pulse">EcoLearn</h2>
-        </a>
-    </div>
-    <nav class="hidden lg:flex items-center gap-8">
-        <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./learning.html"><span class="material-symbols-outlined text-base animate-pulse">school</span>Learn</a>
-        <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./events.html"><span class="material-symbols-outlined text-base animate-pulse">event</span>Campaigns</a>
-        <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./leaderboard.html"><span class="material-symbols-outlined text-base animate-pulse">leaderboard</span>Leaderboard</a>
-        <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./ecommerce.html"><span class="material-symbols-outlined text-base animate-pulse">shopping_cart</span>Shop</a>
-        <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./Waste.html"><span class="material-symbols-outlined text-base animate-pulse">recycling</span>Survey</a>
-    </nav>
-    <div class="flex items-center gap-2">
-        <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white text-sm font-bold hover:from-green-600 hover:to-green-500 shadow-lg transition-all btn-ripple animate-fadeInUp delay-1">
-            <span class="material-symbols-outlined mr-2 animate-pulse">login</span>
-            <span>Login</span>
-        </button>
-        <div id="user-avatar-container" class="hidden relative">
-            <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
-            <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-            </div>
-        </div>
-    </div>
-</header>
-
-<main class="px-4 sm:px-12 lg:px-24 flex flex-1 justify-center py-10 animate-fadeIn delay-1">
-    <div class="flex flex-col max-w-7xl flex-1">
-        <div class="p-2">
-            <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center rounded-2xl items-center justify-center p-4 text-center shadow-xl animate-fadeInUp delay-2" style='background-image: linear-gradient(rgba(34,197,94,0.15) 0%, rgba(34,197,94,0.35) 100%), url("https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop");'>
-                <h1 class="text-white text-4xl md:text-6xl font-bold drop-shadow-lg animate-fadeInUp delay-3">Empowering Communities for a Sustainable Future</h1>
-                <h2 class="text-gray-200 text-base md:text-lg max-w-3xl animate-fadeInUp delay-4">Join us in our mission to educate, engage, and promote sustainable practices for a healthier planet.</h2>
-                <a class="flex max-w-[480px] cursor-pointer items-center justify-center rounded-full h-12 px-6 bg-gradient-to-r from-green-500 to-green-400 text-white text-base font-bold shadow-md hover:from-green-600 hover:to-green-500 transition-all btn-ripple animate-fadeInUp delay-5" href="./events.html">
-                    <span class="material-symbols-outlined mr-2 animate-pulse">rocket_launch</span>
-                    <span>Explore Our Initiatives</span>
-                </a>
-            </div>
-        </div>
-
-        <h2 class="text-gray-800 text-3xl font-bold leading-tight tracking-tight px-4 pb-4 pt-12 animate-fadeInUp delay-2">Our Impact</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
-            <div class="flex flex-col gap-2 rounded-xl p-6 bg-green-50 border border-green-100 card-animated animate-fadeInUp delay-3">
-                <p class="text-green-800 text-lg font-medium leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">forest</span>Trees Planted</p>
-                <p class="text-green-600 tracking-light text-4xl font-bold leading-tight">15,000+</p>
-            </div>
-            <div class="flex flex-col gap-2 rounded-xl p-6 bg-green-50 border border-green-100 card-animated animate-fadeInUp delay-4">
-                <p class="text-green-800 text-lg font-medium leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">groups</span>Community Members Engaged</p>
-                <p class="text-green-600 tracking-light text-4xl font-bold leading-tight">5,000+</p>
-            </div>
-            <div class="flex flex-col gap-2 rounded-xl p-6 bg-green-50 border border-green-100 card-animated animate-fadeInUp delay-5">
-                <p class="text-green-800 text-lg font-medium leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">eco</span>Sustainable Practices Adopted</p>
-                <p class="text-green-600 tracking-light text-4xl font-bold leading-tight">2,000+</p>
-            </div>
-        </div>
-
-        <h2 class="text-gray-800 text-3xl font-bold leading-tight tracking-tight px-4 pb-4 pt-12 animate-fadeInUp delay-3">Explore Our Programs</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-            <div class="flex flex-col gap-4 rounded-xl overflow-hidden shadow-sm card-animated animate-fadeInUp delay-3 border border-green-100 bg-white">
-                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBvALVoXy_9F_4p_XUYSrGgZGNwBKuT48lIblq-c9wRJFcelAOnOQoiGW3a9g2B6uxZR--H91njmRKHzRngOXYJAKR2cqfZx2ORujlFUlt3BvWdESHRgG5PZlLhdYykomawBx13G5oPfQ4RLFvoHv7MVwc583_wezUHV4qu2eFifx7QM4gGUSIIYPourGzKkLKWLRKSemVSPcG-j1ftFi5CWJ8GbfRhkqePuS-_ndfIjenNsGJB1_6I7i2TmHUX1uZ1JpvoESzI0pc");'></div>
-                <div class="p-4 flex flex-col gap-2">
-                    <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">menu_book</span>Environmental Education</p>
-                    <p class="text-gray-500 text-sm font-normal leading-normal">Dive into our learning modules and expand your knowledge on environmental topics.</p>
-                </div>
-            </div>
-            <div class="flex flex-col gap-4 rounded-xl overflow-hidden shadow-sm card-animated animate-fadeInUp delay-4 border border-green-100 bg-white">
-                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCOmYFuRlDOVckCSrh7AQZj8ibB_yAOXirsBouhWm0uMixaOjjUjS3aNhkDLwEgTYqzYQW9XA1O_jILsOVAW1YPH_0Ma91gu8LG9nV_Mj78XwDEcfL2QY1bX2HcOZowrFcqbGkzlkexyk6iLKiWPfE7rFYiVrjztCMmGU2CyEidfwNhy-oCMkdgj2p2FhQUxYgsOnyrbHdNU_IaZxzCgIHOXS5JLELUHxX8gEZ8xvEgdfT8X1KognUXo7hFXGxPcViXPeZScRmse54");'></div>
-                <div class="p-4 flex flex-col gap-2">
-                    <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">diversity_3</span>Community Engagement</p>
-                    <p class="text-gray-500 text-sm font-normal leading-normal">Participate in our campaigns and make a difference in your community.</p>
-                </div>
-            </div>
-            <div class="flex flex-col gap-4 rounded-xl overflow-hidden shadow-sm card-animated animate-fadeInUp delay-5 border border-green-100 bg-white">
-                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCp5NKsoeJF5BqyLfe8ZLvuV4a9Zp9l9ga59DuxWxr88hGyDaYTpD8G8u5B3AktUNMqrszfMYBTon4xKVPsEgQ0JkaZZntw3TKNazpoEMCImH4TeMCvv3vikiPG_P2UVqbSAffXT51fvbgwB4Ud-WoQSlh69aHcCCe8uSe8lDW5u1zZjEGjBT3jhhQYuOyguik8FWznPMt5HuMLTtroLf4gtSpWghEO8HoGYYwpDKn_35dHuO1ydm7_BUEuSDhal-5bQKBOeSjRiXY");'></div>
-                <div class="p-4 flex flex-col gap-2">
-                    <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">energy_savings_leaf</span>Sustainable Practices</p>
-                    <p class="text-gray-500 text-sm font-normal leading-normal">Earn green points by adopting sustainable habits and redeem rewards.</p>
-                </div>
-            </div>
-            <div class="flex flex-col gap-4 rounded-xl overflow-hidden shadow-sm card-animated animate-fadeInUp delay-5 border border-green-100 bg-white">
-                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCaOkWs27RKeoregoUSpe46KC9rF25BlPZEphKtYAzgfqF939clnMaXE3JN5Tk0-NSW5DkjxThCZiO9u45g6EFsWivC8iLtlZueCgBGr1ZbRx3kwEhbuK2VhqG2Cgpb2emYbnjWVBhSJFHndqq4qaax8ekBFwlZ_bdYUiK9HOCaggNqdcP3LSOHWFFEbnMRX0SORiBai9h5TCTuiIlc1WICQ_4ruZKa10kdIn-MuDZLgLWbAV8fBUA7x1IncpI6AaPrrtCZvwGcu3c");'></div>
-                <div class="p-4 flex flex-col gap-2">
-                    <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">shopping_bag</span>Eco-Friendly Store</p>
-                    <p class="text-gray-500 text-sm font-normal leading-normal">Shop for eco-friendly products that align with your values.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="text-gray-800 text-3xl font-bold px-4 pb-4 pt-12 animate-fadeInUp delay-4">Featured Campaigns</h2>
-        <div id="campaigns-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4 animate-fadeInUp delay-5">
-            <p>Loading campaigns...</p>
-        </div>
-
-        <h2 class="text-gray-800 text-3xl font-bold leading-tight tracking-tight px-4 pb-4 pt-12 animate-fadeInUp delay-5">Testimonials</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-            <div class="flex flex-col gap-4 rounded-xl border border-gray-200 p-6 bg-white hover:shadow-lg transition-shadow duration-200 card-animated animate-fadeInUp delay-3">
-                <div class="flex items-center gap-4">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhdeZ3J5F1riguBuU625eZ6xRgduka9oFin1v2rJWzBJ17nN-TxtZsMmR1tv3NSd_4GOljkMWMB17zV1kHNzX1eQGG0OH9mj3b2o9fS2IPzzxGYkhjbbEyYZ8NukJBeyQPcUiqsP3EyKTLVd2RZoKSFWPskDay2FPrw7HIlRY7ilGsx34bz_S3cruba61gxJtcfPdTWvDNmdtrSlQwG3LTCYyp45RFe6qvrKOd3qOprWQJpHedIHb91jeJ6zJa8D5jvya8N2aUYyg");'></div>
-                    <div class="flex-1">
-                        <p class="text-gray-800 text-base font-semibold leading-normal">Sophia Clark</p>
-                        <p class="text-gray-500 text-sm font-normal leading-normal">2 months ago</p>
-                    </div>
-                </div>
-                <div class="flex gap-0.5 text-green-500">
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                </div>
-                <p class="text-gray-600 text-base font-normal leading-relaxed">
-                    EcoLearn has transformed my understanding of environmental issues. The learning modules are engaging and informative, and I feel empowered to make a difference.
-                </p>
-            </div>
-            <div class="flex flex-col gap-4 rounded-xl border border-gray-200 p-6 bg-white hover:shadow-lg transition-shadow duration-200 card-animated animate-fadeInUp delay-4">
-                <div class="flex items-center gap-4">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB80vThAd5ou1pkaWJaRDrdz6ZLXTp7NDP5w9bC_u_IhnpBqAM5RSIGJ_Ew4uWg87zfY9zJzD8fB5HVSKshsy0Wnn0btM3Nvn_y6gzSu5U7v8x6UDB9BHBb3QCS57Ok7chR55LL5TbywRqdbnxTWz4_ENT2cPrf9EMC03c0ljptILwb311-Mk_1YNpCfsQcc22oZMJXlQiWxcfRqXZEW1C95oU160okQTPOMlanR0_x4ghuzEfodz2qOxxPHX_2t06ekB_C0rVzHEg");'></div>
-                    <div class="flex-1">
-                        <p class="text-gray-800 text-base font-semibold leading-normal">Ethan Bennett</p>
-                        <p class="text-gray-500 text-sm font-normal leading-normal">3 months ago</p>
-                    </div>
-                </div>
-                <div class="flex gap-0.5 text-green-500">
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg text-gray-300 animate-pulse">star</span>
-                </div>
-                <p class="text-gray-600 text-base font-normal leading-relaxed">
-                    I've participated in several campaigns organized by EcoLearn, and it's been a rewarding experience to connect with like-minded individuals and contribute to
-                    positive change.
-                </p>
-            </div>
-            <div class="flex flex-col gap-4 rounded-xl border border-gray-200 p-6 bg-white hover:shadow-lg transition-shadow duration-200 card-animated animate-fadeInUp delay-5">
-                <div class="flex items-center gap-4">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC1uT2WuygP_L4yXVR-WcIWrNRMezLzzW3tKH5OWkRgTFlksNnJlaYnlBP2YOeqD3jZql6WQ_PI0o_2JBi7peoVy2tEAYiT7-kemGNHz1lwczmlRcMXHFmRTq-aUi4Lm7IWjsKD1_99F3NVrYKUycVJEMo3OusngRPyoTp4eFDOvxRT8l9TgIXaD6q3FalgBksJSp_BPrRDTV6M0tzizEx-fmFHT_b0KdNDNp8QHeB1qsxoUcBX1yTUnTZZvo5uAci5oAka-u6ZcBI");'></div>
-                    <div class="flex-1">
-                        <p class="text-gray-800 text-base font-semibold leading-normal">Olivia Carter</p>
-                        <p class="text-gray-500 text-sm font-normal leading-normal">4 months ago</p>
-                    </div>
-                </div>
-                <div class="flex gap-0.5 text-green-500">
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                    <span class="material-symbols-outlined !text-lg animate-pulse">star</span>
-                </div>
-                <p class="text-gray-600 text-base font-normal leading-relaxed">
-                    The Eco-Friendly Store offers a fantastic selection of sustainable products. I love supporting businesses that prioritize the environment.
-                </p>
-            </div>
-        </div>
-    </div>
-</main>
-
-<footer class="bg-gradient-to-r from-green-50 to-slate-100 border-t border-gray-200 mt-12 animate-fadeIn delay-5">
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div class="space-y-4">
-                <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Solutions</h3>
-                <ul class="space-y-2">
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Education</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Campaigns</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Green Points</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">E-commerce</a></li>
-                </ul>
-            </div>
-            <div class="space-y-4">
-                <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Support</h3>
-                <ul class="space-y-2">
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Pricing</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Documentation</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Guides</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">API Status</a></li>
-                </ul>
-            </div>
-            <div class="space-y-4">
-                <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Company</h3>
-                <ul class="space-y-2">
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">About</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Blog</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Jobs</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Press</a></li>
-                </ul>
-            </div>
-            <div class="space-y-4">
-                <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Legal</h3>
-                <ul class="space-y-2">
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Claim</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Privacy</a></li>
-                    <li><a class="text-base text-gray-500 hover:text-green-700" href="#">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
-            <div class="flex space-x-6 md:order-2">
-                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl icon-spin">facebook</span></a>
-                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl icon-spin">instagram</span></a>
-                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl icon-spin">twitter</span></a>
-            </div>
-            <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">© 2024 EcoLearn. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-</div>
-
-<div id="modal-backdrop" class="modal fixed inset-0 bg-black bg-opacity-50 z-40 hidden opacity-0"></div>
-
-<div id="login-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 hidden opacity-0">
-    <div class="relative rounded-xl w-full max-w-md p-8 modal-content-animated">
-        <button class="close-modal-button absolute top-4 right-4 text-gray-400 hover:text-gray-800">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="text-center mb-6">
-            <span class="material-symbols-outlined text-5xl text-green-600 icon-spin">eco</span>
-            <h2 class="text-2xl font-bold text-gray-800 mt-2 animate-pulse">Welcome Back!</h2>
-        </div>
-        <form id="login-form" class="space-y-4">
-            <div>
-                <label for="login-email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="login-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500">
-            </div>
-            <div>
-                <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" id="login-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500">
-            </div>
-            <button type="submit" class="w-full flex justify-center py-3 px-4 rounded-md shadow-sm text-sm font-bold text-white bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 transition-all btn-ripple">
-                Login
-            </button>
-        </form>
-        <p class="mt-6 text-center text-sm text-gray-500">
-            Don't have an account? <a href="#" class="show-signup-modal font-medium text-green-600 hover:text-green-500">Sign up</a>
-        </p>
-    </div>
-</div>
-
-<div id="signup-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 hidden opacity-0">
-    <div class="relative rounded-xl w-full max-w-md p-8 modal-content-animated">
-        <button class="close-modal-button absolute top-4 right-4 text-gray-400 hover:text-gray-800">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="text-center mb-6">
-            <span class="material-symbols-outlined text-5xl text-green-600 icon-spin">eco</span>
-            <h2 class="text-2xl font-bold text-gray-800 mt-2 animate-pulse">Join EcoLearn Today</h2>
-        </div>
-        <form id="signup-form" class="space-y-4">
-            <div>
-                <label for="signup-name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                <input type="text" id="signup-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500">
-            </div>
-            <div>
-                <label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="signup-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500">
-            </div>
-            <div>
-                <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" id="signup-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500">
-            </div>
-            <button type="submit" class="w-full flex justify-center py-3 px-4 rounded-md shadow-sm text-sm font-bold text-white bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 transition-all btn-ripple">
-                Create Account
-            </button>
-        </form>
-        <p class="mt-6 text-center text-sm text-gray-500">
-            Already have an account? <a href="#" class="show-login-modal font-medium text-green-600 hover:text-green-500">Log in</a>
-        </p>
-    </div>
-</div>
-
-<script src="auth.js"></script>
-<script src="index.js"></script>
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -381,13 +20,14 @@
         50% {background-position:100% 50%;}
       }
       /* Parallax Hero */
-  .hero-bg {
-  background-image: linear-gradient(rgba(34,197,94,0.03), rgba(34,197,94,0.07)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  transition: background-position 0.3s;
-}    /* Animations */
+      .hero-bg {
+        background-image: linear-gradient(rgba(34,197,94,0.03), rgba(34,197,94,0.07)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        transition: background-position 0.3s;
+      }
+      /* Animations */
       @keyframes slideInLeft {
         from { opacity: 0; transform: translateX(-60px);}
         to { opacity: 1; transform: translateX(0);}
@@ -416,7 +56,6 @@
       .animate-scaleUp { animation: scaleUp 0.8s cubic-bezier(.4,0,.2,1) both;}
       .animate-bounceIn { animation: bounceIn 1s cubic-bezier(.4,0,.2,1) both;}
       .animate-pulse { animation: pulse 1.5s infinite;}
-      .icon-spin { animation: spin 2s linear infinite;}
       /* Staggered delays */
       .delay-0 { animation-delay: 0s; }
       .delay-1 { animation-delay: 0.2s; }
@@ -455,12 +94,12 @@
       }
       /* Button Bounce on Hover */
       .btn-ripple {
-  position: relative;
-  overflow: hidden;
-}
-.btn-ripple:hover {
-  animation: bounceBtn 0.4s both;
-}
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-ripple:hover {
+        animation: bounceBtn 0.4s both;
+      }
       @keyframes bounceBtn {
         0% {transform: scale(1);}
         30% {transform: scale(1.08);}
@@ -498,7 +137,7 @@
 <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3 shadow-lg rounded-b-xl bg-white/90 sticky top-0 z-30 animate-slideInLeft delay-0 fade-scroll">
     <div class="flex items-center gap-3 text-gray-800">
         <a href="./index.html" class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-3xl text-green-600 icon-spin">eco</span>
+            <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
             <h2 class="text-gray-800 text-xl font-bold tracking-wide animate-pulse">EcoLearn</h2>
         </a>
     </div>
@@ -701,9 +340,9 @@
         </div>
         <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
             <div class="flex space-x-6 md:order-2">
-                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl icon-spin">facebook</span></a>
-                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl icon-spin">instagram</span></a>
-                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl icon-spin">twitter</span></a>
+                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl">facebook</span></a>
+                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl">instagram</span></a>
+                <a class="text-green-500 hover:text-green-700" href="#"><span class="material-symbols-outlined text-2xl">twitter</span></a>
             </div>
             <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">© 2024 EcoLearn. All rights reserved.</p>
         </div>
@@ -719,7 +358,7 @@
             <span class="material-symbols-outlined">close</span>
         </button>
         <div class="text-center mb-6">
-            <span class="material-symbols-outlined text-5xl text-green-600 icon-spin">eco</span>
+            <span class="material-symbols-outlined text-5xl text-green-600">eco</span>
             <h2 class="text-2xl font-bold text-gray-800 mt-2 animate-pulse">Welcome Back!</h2>
         </div>
         <form id="login-form" class="space-y-4">
@@ -747,7 +386,7 @@
             <span class="material-symbols-outlined">close</span>
         </button>
         <div class="text-center mb-6">
-            <span class="material-symbols-outlined text-5xl text-green-600 icon-spin">eco</span>
+            <span class="material-symbols-outlined text-5xl text-green-600">eco</span>
             <h2 class="text-2xl font-bold text-gray-800 mt-2 animate-pulse">Join EcoLearn Today</h2>
         </div>
         <form id="signup-form" class="space-y-4">

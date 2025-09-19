@@ -9,144 +9,180 @@
     <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style>
+        body {
+            background: linear-gradient(120deg, #e0ffe0, #f0f9ff, #e0ffe0);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+        }
+        @keyframes gradientBG {
+            0%,100% {background-position:0% 50%;}
+            50% {background-position:100% 50%;}
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.8);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.7);}
+            60% { opacity: 1; transform: scale(1.1);}
+            80% { transform: scale(0.95);}
+            100% { transform: scale(1);}
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.12);}
+        }
+        .animate-slideInLeft { animation: slideInLeft 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-fadeInUp { animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-scaleUp { animation: scaleUp 0.8s cubic-bezier(.4,0,.2,1) both;}
+        .animate-bounceIn { animation: bounceIn 1s cubic-bezier(.4,0,.2,1) both;}
+        .animate-pulse { animation: pulse 1.5s infinite;}
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1s; }
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-ripple:after {
+            content: "";
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.4);
+            border-radius: 100%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 1;
+        }
+        .btn-ripple:active:after {
+            width: 200px; height: 200px;
+            transition: 0s;
+        }
+        .btn-ripple:hover {
+            animation: bounceBtn 0.4s both;
+        }
+        @keyframes bounceBtn {
+            0% {transform: scale(1);}
+            30% {transform: scale(1.08);}
+            50% {transform: scale(0.95);}
+            100% {transform: scale(1);}
+        }
+        .card-animated {
+            transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+        }
+        .card-animated:hover {
+            box-shadow: 0 0 32px 4px #22c55e55, 0 12px 32px rgba(34,197,94,0.18);
+            transform: translateY(-6px) scale(1.07) rotate(-2deg);
+            border-color: #22c55e;
+        }
+        .fade-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .fade-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         .dropdown-menu { display: none; }
         #user-avatar-container:hover .dropdown-menu { display: block; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
 <div class="relative flex min-h-screen w-full flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3">
-    <div class="flex items-center gap-3 text-gray-800">
-        <a href="./index.html" class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
-            <h2 class="text-gray-800 text-xl font-bold">EcoLearn</h2>
-        </a>
-    </div>
-    <nav class="hidden lg:flex items-center gap-8">
-<a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="./index.html">Home</a>
-                <a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="#">About</a>
-                <a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="./ecommerce.html">Shop</a>
-                <a class="text-[#0B120B] text-base font-medium hover:text-[#17CF17]" href="#">Contact</a>
-    </nav>
-    <div class="flex items-center gap-2">
-        <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-green-500 text-white text-sm font-bold hover:bg-green-600">
-            <span>Login</span>
-        </button>
-        <div id="user-avatar-container" class="hidden relative">
-            <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
-            <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-b-gray-200 px-10 py-3 shadow-lg rounded-b-xl bg-white/90 sticky top-0 z-30 animate-slideInLeft delay-0 fade-scroll">
+        <div class="flex items-center gap-3 text-gray-800">
+            <a href="./index.html" class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-3xl text-green-600">eco</span>
+                <h2 class="text-gray-800 text-xl font-bold tracking-wide animate-pulse">EcoLearn</h2>
+            </a>
+        </div>
+        <nav class="hidden lg:flex items-center gap-8">
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./learning.html"><span class="material-symbols-outlined text-base animate-pulse">school</span>Learn</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./events.html"><span class="material-symbols-outlined text-base animate-pulse">event</span>Campaigns</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./leaderboard.html"><span class="material-symbols-outlined text-base animate-pulse">leaderboard</span>Leaderboard</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./ecommerce.html"><span class="material-symbols-outlined text-base animate-pulse">shopping_cart</span>Shop</a>
+            <a class="flex items-center gap-1 text-gray-600 hover:text-green-600 text-sm font-medium transition-colors" href="./Waste.html"><span class="material-symbols-outlined text-base animate-pulse">recycling</span>Survey</a>
+        </nav>
+        <div class="flex items-center gap-2">
+            <button id="login-button" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-md h-10 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white text-sm font-bold hover:from-green-600 hover:to-green-500 shadow-lg transition-all btn-ripple animate-bounceIn delay-2">
+                <span class="material-symbols-outlined mr-2 animate-pulse">login</span>
+                <span>Login</span>
+            </button>
+            <div id="user-avatar-container" class="hidden relative">
+                <img id="user-avatar-img" src="" alt="User Avatar" class="aspect-square bg-cover rounded-full size-10 cursor-pointer"/>
+                <div id="dropdown-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                    <a href="myProfile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                    <a href="#" id="logout-button" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-    
-    <main class="flex-1">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-col lg:flex-row gap-12">
-                <div class="w-full lg:w-3/4">
-                    <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Eco-Friendly Shop</h1>
-                    <p class="mt-4 text-lg text-gray-600">Discover our curated collection of sustainable products.</p>
-                    <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8">
-                        <p>Loading products...</p>
-                    </div>
+    </header>
+    <main class="flex-1 px-4 py-10 fade-scroll">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8 text-center">
+                <h1 class="text-4xl font-bold text-green-800 animate-slideInLeft delay-1">Eco-Friendly Shop</h1>
+                <p class="mt-2 text-lg text-green-700 animate-fadeInUp delay-2">Buy sustainable products and support green initiatives.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-green-100 card-animated animate-scaleUp delay-2">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Eco Product" class="w-full h-40 object-cover rounded-lg mb-4 animate-bounceIn delay-3">
+                    <h2 class="text-xl font-bold text-green-800 mb-2">Reusable Water Bottle</h2>
+                    <p class="text-gray-600 mb-4">Made from recycled materials. BPA-free.</p>
+                    <button class="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white font-bold rounded-md hover:from-green-600 hover:to-green-500 btn-ripple animate-bounceIn delay-4">Add to Cart</button>
                 </div>
-                <div class="w-full lg:w-1/4">
-                    <div class="sticky top-28 bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">Order Summary</h2>
-                        <div class="space-y-4">
-                            <div class="flex justify-between text-gray-600">
-                                <span>Subtotal</span>
-                                <span id="summary-subtotal">$0.00</span>
-                            </div>
-                            <div class="flex justify-between text-gray-600">
-                                <span>Shipping</span>
-                                <span id="summary-shipping">$0.00</span>
-                            </div>
-                            <div class="border-t pt-4">
-                                <div class="flex justify-between font-semibold text-gray-900">
-                                    <span>Total</span>
-                                    <span id="summary-total">$0.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="points-section" class="mt-8 hidden">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Use Green Points</h3>
-                            <p class="text-sm text-gray-500 mb-4">You have <span id="user-points" class="font-bold text-green-600">0</span> Green Points available.</p>
-                            <div class="flex">
-                                <input id="points-input" class="form-input w-full rounded-l-md border-gray-300 focus:border-green-500 focus:ring-green-500" placeholder="Enter points" type="number"/>
-                                <button id="apply-points-button" class="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700 text-sm font-semibold">Apply</button>
-                            </div>
-                        </div>
-                        <div id="discount-row" class="mt-4 hidden justify-between text-sm text-green-700">
-                            <span>Green Points Discount</span>
-                            <span id="summary-discount">-$0.00</span>
-                        </div>
-                        <div class="border-t pt-4 mt-4">
-                            <div class="flex justify-between font-bold text-xl text-gray-900">
-                                <span>Grand Total</span>
-                                <span id="summary-grand-total">$0.00</span>
-                            </div>
-                        </div>
-                        <button id="checkout-button" class="w-full mt-8 bg-green-600 text-white font-bold py-3 px-4 rounded-md hover:bg-green-700 flex items-center justify-center gap-2 disabled:bg-gray-400">
-                            <span class="material-symbols-outlined">lock</span>
-                            Proceed to Payment
-                        </button>
-                    </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-green-100 card-animated animate-scaleUp delay-3">
+                    <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Eco Product" class="w-full h-40 object-cover rounded-lg mb-4 animate-bounceIn delay-4">
+                    <h2 class="text-xl font-bold text-green-800 mb-2">Bamboo Toothbrush</h2>
+                    <p class="text-gray-600 mb-4">Biodegradable handle. Soft bristles.</p>
+                    <button class="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white font-bold rounded-md hover:from-green-600 hover:to-green-500 btn-ripple animate-bounceIn delay-5">Add to Cart</button>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-green-100 card-animated animate-scaleUp delay-4">
+                    <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Eco Product" class="w-full h-40 object-cover rounded-lg mb-4 animate-bounceIn delay-5">
+                    <h2 class="text-xl font-bold text-green-800 mb-2">Organic Cotton Tote</h2>
+                    <p class="text-gray-600 mb-4">Perfect for shopping. Washable and durable.</p>
+                    <button class="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white font-bold rounded-md hover:from-green-600 hover:to-green-500 btn-ripple animate-bounceIn delay-5">Add to Cart</button>
                 </div>
             </div>
         </div>
     </main>
-
-    <footer class="bg-gray-100 border-t border-gray-200">
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-<div>
-<h3 class="text-lg font-semibold mb-4">EcoLife</h3>
-<p class="text-sm text-primary-200">Promoting environmental education and sustainable practices for a greener future.</p>
+    <footer class="bg-gray-100 border-t border-gray-200 mt-10 animate-fadeInUp delay-5 fade-scroll">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
+                <p class="text-base text-gray-400 md:order-1">© 2025 EcoLearn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </div>
-<div>
-<h3 class="text-base font-semibold mb-4 text-primary-100">Quick Links</h3>
-<ul class="space-y-2">
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Home</a></li>
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">About</a></li>
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Shop</a></li>
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Contact</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-base font-semibold mb-4 text-primary-100">Resources</h3>
-<ul class="space-y-2">
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Privacy Policy</a></li>
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">Terms of Service</a></li>
-<li><a class="text-sm text-primary-200 hover:text-white transition-colors" href="#">FAQ</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-base font-semibold mb-4 text-primary-100">Follow Us</h3>
-<div class="flex space-x-4">
-<a class="text-primary-200 hover:text-white transition-colors" href="#">
-<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
-</a>
-<a class="text-primary-200 hover:text-white transition-colors" href="#">
-<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
-</a>
-<a class="text-primary-200 hover:text-white transition-colors" href="#">
-<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.001c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.001C22 6.477 17.523 2 12 2z" fill-rule="evenodd"></path></svg>
-</a>
-</div>
-</div>
-</div>
-<div class="mt-8 border-t border-primary-800 pt-8 text-center text-sm text-primary-200">
-<p>© 2024 EcoLife. All rights reserved.</p>
-</div>
-</div>
-</footer>
-</div>
-
 <script src="auth.js"></script>
 <script src="ecommerce.js"></script>
-
+<script>
+  // Fade-in on scroll for sections
+  document.addEventListener("DOMContentLoaded", function() {
+    const fadeEls = document.querySelectorAll('.fade-scroll');
+    function checkFade() {
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 60) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkFade);
+    checkFade();
+  });
+</script>
 </body>
 </html>
