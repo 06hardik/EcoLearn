@@ -176,6 +176,16 @@
         <span>Subtotal</span>
         <span id="summary-subtotal">₹0.00</span>
     </div>
+    <div id="points-section" class="mt-6 border-t pt-4 hidden">
+    <h3 class="font-semibold text-gray-800 mb-2">Use Green Points</h3>
+    <p class="text-sm text-gray-500 mb-3">
+        You have <span id="user-points" class="font-bold text-green-600">0</span> points.
+    </p>
+    <div class="flex">
+        <input id="points-input" class="form-input w-full rounded-l-md border-gray-300 focus:border-green-500 focus:ring-green-500 text-sm" placeholder="Points to use" type="number"/>
+        <button id="apply-points-button" class="bg-green-600 text-white px-4 rounded-r-md hover:bg-green-700 text-sm font-semibold">Apply</button>
+    </div>
+</div>
     <div id="discount-row" class="hidden justify-between text-sm text-green-700">
         <span>Points Discount</span>
         <span id="summary-discount">-₹0.00</span>
