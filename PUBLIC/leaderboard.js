@@ -34,7 +34,7 @@ document.addEventListener('auth-check-complete', () => {
             const rank = index + 1;
             const classes = rankClasses[rank];
             const card = document.createElement('div');
-            card.className = 'flex flex-col items-center gap-4 rounded-lg p-4 bg-white border border-gray-200 shadow-sm text-center';
+            card.className = 'card-animated rounded-xl p-6 bg-green-50 border border-green-100 animate-scaleUp delay-' + (rank + 1) + ' fade-scroll flex flex-col items-center gap-4 text-center';
             card.innerHTML = `
                 <div class="relative">
                     <div class="w-32 h-32 bg-center bg-no-repeat aspect-square bg-cover rounded-full border-4 ${classes.border}" style="background-image: url('${user.avatarUrl || 'https://via.placeholder.com/150'}');"></div>
@@ -63,7 +63,7 @@ document.addEventListener('auth-check-complete', () => {
             const rank = index + 1;
             const categoryClass = categoryClasses[user.category] || categoryClasses['Unknown'];
             const row = document.createElement('tr');
-            row.className = 'hover:bg-gray-50 transition-colors';
+            row.className = 'animate-scaleUp delay-5 fade-scroll hover:bg-gray-50 transition-colors';
             row.innerHTML = `
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#0e1b0e]">${rank}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${user.name}</td>

@@ -1,141 +1,46 @@
 document.addEventListener('auth-check-complete', () => {
-    const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
-    const currentUser = window.currentUser;
     const eventsContainer = document.getElementById('events-container');
-        if (!eventsContainer) {
-        return; 
-    }
-const eventSelect = document.getElementById('impact-event');
-         const impactForm = document.getElementById('impact-form');
+    const impactEventSelect = document.getElementById('impact-event');
+    const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
+
     const fetchEvents = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/events`);
             if (!response.ok) throw new Error('Failed to fetch events');
             const events = await response.json();
-        
-            if (events.length === 0) {
-                eventsContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">There are no upcoming events at this time. Please check back later!</p>';
-                return; 
-            }
-            eventsContainer.innerHTML = ''; 
-
-if (eventSelect) {
-            eventSelect.innerHTML = '<option value="">-- Choose an event --</option>';
-            events.forEach(event => {
-                const option = document.createElement('option');
-                option.value = event._id;
-                option.textContent = event.title;
-                eventSelect.appendChild(option);
-            });
-        }
-            
-            events.forEach(event => {
-                const eventCard = document.createElement('div');
-                eventCard.className = 'flex flex-col rounded-lg bg-white border border-[#E0E0E0] shadow-sm overflow-hidden transform hover:-translate-y-1 transition-transform duration-300';
-                
-                const eventDate = new Date(event.date);
-                const formattedDate = eventDate.toLocaleDateString('en-US', {
-                    month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit'
-                });
-
-                    
-                
-                eventCard.innerHTML = `
-                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style="background-image: url('${event.imageUrl}');"></div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <p class="text-[#4A644A] text-sm font-medium">${formattedDate} | ${event.location}</p>
-                        <h3 class="text-[#0B120B] text-lg font-bold mt-1">${event.title}</h3>
-                        <p class="text-[#4A644A] text-base mt-2 flex-1">${event.description}</p>
-                        <button data-event-id="${event._id}" class="register-button flex mt-4 min-w-[84px] items-center justify-center rounded-md h-10 px-4 bg-[#17CF17] text-[#0B120B] text-base font-bold hover:bg-opacity-90">
-                            <span class="truncate">${event.eventType === 'Workshop' ? 'Register' : 'Volunteer'}</span>
-                        </button>
-                    </div>
-                `;
-                eventsContainer.appendChild(eventCard);
-            });
+            renderEvents(events);
+            renderEventOptions(events);
         } catch (error) {
-            console.error(error);
-            eventsContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">Could not load events at this time.</p>';
+            if (eventsContainer) eventsContainer.innerHTML = `<p class="text-red-600">Could not load events.</p>`;
         }
     };
 
-    eventsContainer.addEventListener('click', async (e) => {
-        const button = e.target.closest('.register-button');
-        if (!button) return;
-
-        if (!currentUser) {
-            alert('Please log in to register for an event.');
-            return;
-        }
-
-        const eventId = button.dataset.eventId;
-        button.textContent = 'Registering...';
-        button.disabled = true;
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/events/${eventId}/register`, {
-                method: 'POST',
-                credentials: 'include'
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert(result.message);
-                button.textContent = 'Registered!';
-                button.classList.replace('bg-[#17CF17]', 'bg-gray-400');
-            } else {
-                alert(`Error: ${result.message}`);
-                button.textContent = 'Register';
-                button.disabled = false;
-            }
-        } catch (error) {
-            console.error('Registration failed:', error);
-            alert('Registration failed. Please try again.');
-            button.textContent = 'Register';
-            button.disabled = false;
-        }
-    });
-
-if (impactForm) {
-        impactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) {
-                alert('You must be logged in to submit a photo.');
-                return;
-            }
-
-            const submitButton = impactForm.querySelector('button[type="submit"]');
-            submitButton.textContent = 'Uploading...';
-            submitButton.disabled = true;
-
-            const formData = new FormData();
-            formData.append('impactPhoto', document.getElementById('impact-photo').files[0]);
-            formData.append('event', document.getElementById('impact-event').value);
-            formData.append('caption', document.getElementById('impact-caption').value);
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/submissions`, {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'include'
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    alert(result.message);
-                    impactForm.reset();
-                } else {
-                    const error = await response.json();
-                    alert(`Error: ${error.message}`);
-                }
-            } catch (error) {
-                alert('An error occurred during upload.');
-            } finally {
-                submitButton.textContent = 'Submit Photo';
-                submitButton.disabled = false;
-            }
+    const renderEvents = (events) => {
+        if (!eventsContainer) return;
+        eventsContainer.innerHTML = '';
+        events.forEach((event, idx) => {
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-xl shadow-lg p-6 border border-green-100 card-animated animate-scaleUp delay-${idx + 2} fade-scroll`;
+            card.innerHTML = `
+                <h2 class="text-xl font-bold text-green-800 mb-2">${event.title}</h2>
+                <p class="text-gray-600 mb-4">${event.description}</p>
+                <p class="text-sm text-gray-500 mb-2"><span class="material-symbols-outlined text-base text-green-600 align-middle">calendar_month</span> ${event.date}</p>
+                <button class="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white font-bold rounded-md hover:from-green-600 hover:to-green-500 btn-ripple animate-bounceIn delay-${idx + 3}">Join Event</button>
+            `;
+            eventsContainer.appendChild(card);
         });
-    }
-    
+    };
+
+    const renderEventOptions = (events) => {
+        if (!impactEventSelect) return;
+        impactEventSelect.innerHTML = `<option value="">-- Choose an event --</option>`;
+        events.forEach(event => {
+            const opt = document.createElement('option');
+            opt.value = event.id;
+            opt.textContent = event.title;
+            impactEventSelect.appendChild(opt);
+        });
+    };
+
     fetchEvents();
 });

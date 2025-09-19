@@ -1,166 +1,100 @@
 document.addEventListener('auth-check-complete', () => {
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
-    if (!currentUser) {
-        window.location.href = '/index.html';
-        return;
+
+    function renderProfile() {
+        if (!currentUser) {
+            window.location.href = './index.html';
+            return;
+        }
+        document.getElementById('profile-picture').src = currentUser.avatarUrl || 'https://via.placeholder.com/150';
+        document.getElementById('profile-name').textContent = currentUser.name || '';
+        document.getElementById('profile-email').textContent = currentUser.email || '';
+        document.getElementById('profile-member-since').textContent = `Member since ${currentUser.createdAt ? new Date(currentUser.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : ''}`;
+        document.getElementById('profile-green-points').textContent = currentUser.points ? currentUser.points.toLocaleString() : '0';
+        document.getElementById('profile-campaigns-joined').textContent = currentUser.campaignsJoined ? currentUser.campaignsJoined.length : '0';
+        document.getElementById('profile-trees-contributed').textContent = currentUser.treesContributed ? currentUser.treesContributed : '0';
     }
 
-    const populateProfileData = (user) => {
-        document.getElementById('profile-picture').src = user.avatarUrl || 'https://i.imgur.com/AV25K0m.png'; // Default image if none
-        document.getElementById('profile-name').textContent = user.name;
-        document.getElementById('profile-email').textContent = user.email;
-        const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        document.getElementById('profile-member-since').textContent = `Member since ${joinDate}`;
-
-        document.getElementById('profile-green-points').textContent = user.stats?.greenPoints || 0;
-        document.getElementById('profile-campaigns-joined').textContent = user.stats?.campaignsJoined || 0;
-        document.getElementById('profile-trees-contributed').textContent = user.stats?.treesContributed || 0;
-
-        document.getElementById('edit-name').value = user.name;
-        document.getElementById('edit-email').value = user.email;
-    };
-
-    const fetchUserProfile = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/users/me`, { credentials: 'include' });
-            if (!response.ok) throw new Error('Could not fetch user profile.');
-            
-            const userProfileData = await response.json();
-            populateProfileData(userProfileData);
-
-        } catch (error) {
-            console.error('Error fetching profile:', error);
-        }
-    };
-
-    const fetchRecentActivity = async () => {
-        const activityContainer = document.getElementById('recent-activity-container');
-        try {
-            const response = await fetch(`${API_BASE_URL}/users/me/activity`, { credentials: 'include' });
-            if (!response.ok) throw new Error('Could not fetch activity.');
-            
-            const activities = await response.json();
-            activityContainer.innerHTML = ''; // Clear "Loading..." message
-
-            if (activities.length === 0) {
-                activityContainer.innerHTML = '<p class="text-gray-500">No recent activity.</p>';
-                return;
-            }
-
-            activities.slice(0, 5).forEach(activity => { // Show latest 5 activities
-                const activityEl = document.createElement('div');
-                activityEl.className = 'flex items-center justify-between p-3 bg-slate-50 rounded-md';
-                const activityDate = new Date(activity.date).toLocaleDateString();
-                
-                activityEl.innerHTML = `
-                    <div>
-                        <p class="font-semibold text-gray-800">${activity.title}</p>
-                        <p class="text-sm text-gray-500">${activity.type}</p>
-                    </div>
-                    <p class="text-sm text-gray-500">${activityDate}</p>
-                `;
-                activityContainer.appendChild(activityEl);
-            });
-
-        } catch (error) {
-            console.error('Error fetching activity:', error);
-            activityContainer.innerHTML = '<p class="text-red-500">Could not load recent activity.</p>';
-        }
-    };
-
-    document.getElementById('edit-profile-form').addEventListener('submit', async (e) => {
+    function handleEditProfile(e) {
         e.preventDefault();
         const name = document.getElementById('edit-name').value;
         const email = document.getElementById('edit-email').value;
+        fetch(`${API_BASE_URL}/users/me`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email }),
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert('Profile updated!');
+            window.location.reload();
+        })
+        .catch(() => alert('Failed to update profile.'));
+    }
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/users/me`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email }),
-                credentials: 'include'
-            });
-            if (response.ok) {
-                alert('Profile updated successfully!');
-                fetchUserProfile(); // Refresh data on page
-            } else {
-                const errorData = await response.json();
-                alert(`Update failed: ${errorData.message}`);
-            }
-        } catch (error) {
-            console.error('Error updating profile:', error);
-            alert('An error occurred. Please try again.');
-        }
-    });
+    function handleAvatarUpload(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('avatar-file');
+        if (!fileInput.files.length) return alert('Please select a file.');
+        const formData = new FormData();
+        formData.append('avatar', fileInput.files[0]);
+        fetch(`${API_BASE_URL}/users/me/avatar`, {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert('Avatar updated!');
+            window.location.reload();
+        })
+        .catch(() => alert('Failed to upload avatar.'));
+    }
 
-    document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+    function handleChangePassword(e) {
         e.preventDefault();
         const currentPassword = document.getElementById('current-password').value;
         const newPassword = document.getElementById('new-password').value;
+        fetch(`${API_BASE_URL}/users/me/password`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ currentPassword, newPassword }),
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert('Password updated!');
+        })
+        .catch(() => alert('Failed to update password.'));
+    }
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/users/change-password`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ currentPassword, newPassword }),
-                credentials: 'include'
+    function loadRecentActivity() {
+        const container = document.getElementById('recent-activity-container');
+        fetch(`${API_BASE_URL}/users/me/activity`, { credentials: 'include' })
+            .then(res => res.json())
+            .then(activities => {
+                if (!activities.length) {
+                    container.innerHTML = '<p class="text-gray-500">No recent activity found.</p>';
+                    return;
+                }
+                container.innerHTML = activities.map(act => `
+                    <div class="rounded-md bg-green-50 p-4 shadow-sm animate-fadeInUp fade-scroll">
+                        <p class="font-semibold text-green-700">${act.title}</p>
+                        <p class="text-gray-600 text-sm">${act.description}</p>
+                        <p class="text-xs text-gray-400 mt-2">${new Date(act.date).toLocaleString()}</p>
+                    </div>
+                `).join('');
+            })
+            .catch(() => {
+                container.innerHTML = '<p class="text-red-600">Could not load activity.</p>';
             });
-            if (response.ok) {
-                alert('Password updated successfully!');
-                e.target.reset(); // Clear the form fields
-            } else {
-                const errorData = await response.json();
-                alert(`Update failed: ${errorData.message}`);
-            }
-        } catch (error) {
-            console.error('Error changing password:', error);
-            alert('An error occurred. Please try again.');
-        }
-    });
-
-    const avatarForm = document.getElementById('avatar-upload-form');
-const uploadButton = avatarForm.querySelector('button[type="submit"]');
-
-avatarForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const avatarFile = document.getElementById('avatar-file').files[0];
-    if (!avatarFile) {
-        alert('Please select a file to upload.');
-        return;
     }
 
-    const formData = new FormData();
-    formData.append('avatar', avatarFile);
-
-    const originalButtonText = uploadButton.textContent;
-    uploadButton.disabled = true;
-    uploadButton.textContent = 'Uploading...';
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/users/avatar`, {
-            method: 'PATCH',
-            body: formData,
-            credentials: 'include',
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            alert('Avatar updated successfully!');
-            document.getElementById('profile-picture').src = data.user.avatarUrl;
-            document.getElementById('user-avatar-img').src = data.user.avatarUrl;
-        } else {
-            const error = await response.json();
-            alert(`Upload failed: ${error.message}`);
-        }
-    } catch (error) {
-        console.error('Avatar upload error:', error);
-        alert('An error occurred. The file might be too large or the connection is slow. Please try again.');
-    } finally {
-        uploadButton.disabled = false;
-        uploadButton.textContent = originalButtonText;
-    }
-});
-    fetchUserProfile();
-    fetchRecentActivity();
+    renderProfile();
+    document.getElementById('edit-profile-form').addEventListener('submit', handleEditProfile);
+    document.getElementById('avatar-upload-form').addEventListener('submit', handleAvatarUpload);
+    document.getElementById('change-password-form').addEventListener('submit', handleChangePassword);
+    loadRecentActivity();
 });

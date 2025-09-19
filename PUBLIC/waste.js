@@ -9,15 +9,15 @@ document.addEventListener('auth-check-complete', () => {
             return;
         }
 
-        const surveyForm = document.getElementById('waste-survey-form');
+        const surveyForm = document.querySelector('form');
         if (surveyForm) {
             surveyForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
                 const surveyData = {
                     householdSize: document.getElementById('household-size').value,
-                    wasteCollectionFrequency: document.getElementById('collection-frequency').value,
-                    recyclingPractices: document.getElementById('recycling-practices').value
+                    wasteAmount: document.getElementById('waste-amount').value,
+                    wasteType: document.getElementById('waste-type').value
                 };
 
                 try {

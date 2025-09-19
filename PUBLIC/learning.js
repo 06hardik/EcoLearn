@@ -18,22 +18,21 @@ document.addEventListener('auth-check-complete', () => {
         container.innerHTML = '';
         
         if (currentUser && currentUser.enrolledCourses.length > 0) {
-            for (const courseId of currentUser.enrolledCourses) {
+            for (const [i, courseId] of currentUser.enrolledCourses.entries()) {
                 try {
                     const response = await fetch(`${API_BASE_URL}/courses/${courseId}`);
                     const course = await response.json();
                     
                     const courseCard = document.createElement('div');
-                    courseCard.className = "group transform-gpu overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg";
+                    courseCard.className = `card-animated rounded-xl p-6 bg-green-50 border border-green-100 animate-scaleUp delay-${i+2} fade-scroll`;
                     courseCard.innerHTML = `
-                        <div class="relative h-48 w-full">
-                            <div class="h-full w-full bg-cover bg-center" style="background-image: url('${course.imageUrl}');"></div>
-                            <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="material-symbols-outlined text-xl animate-pulse">menu_book</span>
+                            <span class="text-green-800 text-lg font-medium">${course.title}</span>
                         </div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-neutral-900">${course.title}</h3>
-                            <p class="mt-1 text-sm text-neutral-600">${course.description}</p>
-                        </div>`;
+                        <p class="text-green-600 tracking-light text-base font-bold leading-tight mb-2">Progress: ${course.progress || '0'}%</p>
+                        <p class="text-gray-500 text-sm">${course.description}</p>
+                    `;
                     container.appendChild(courseCard);
                 } catch(error) { console.error(`Failed to load course ${courseId}`, error) }
             }
@@ -45,16 +44,15 @@ document.addEventListener('auth-check-complete', () => {
     async function loadFeaturedLessons() {
         const container = document.getElementById('featured-lessons-container');
         container.innerHTML = `
-            <div class="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
-                <div class="h-48 w-full flex-shrink-0 rounded-md bg-cover bg-center sm:h-32 sm:w-48" style='background-image: url("https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=1974&auto=format&fit=crop");'></div>
-                <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-neutral-900">Lesson 1: Understanding Ecosystems</h3>
-                    <p class="mt-1 text-neutral-600">Watch this video to learn about the interconnectedness of ecosystems.</p>
-                    <button class="mt-4 inline-flex items-center gap-2 rounded-md bg-green-100 px-4 py-2 text-sm font-medium text-neutral-900 transition-colors hover:bg-green-200">
-                        <span class="material-symbols-outlined"> play_circle </span> Watch Now
-                    </button>
-                </div>
-            </div>`;
+            <div class="card-animated rounded-xl p-6 bg-white border border-green-100 shadow-md animate-scaleUp delay-4 fade-scroll">
+                <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">lightbulb</span>Lesson Title</p>
+                <p class="text-gray-500 text-sm font-normal leading-normal">Discover practical tips for sustainable living.</p>
+            </div>
+            <div class="card-animated rounded-xl p-6 bg-white border border-green-100 shadow-md animate-scaleUp delay-5 fade-scroll">
+                <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">lightbulb</span>Lesson Title</p>
+                <p class="text-gray-500 text-sm font-normal leading-normal">Learn about renewable energy sources.</p>
+            </div>
+        `;
     }
 
     async function loadProgressOverview() {
@@ -79,18 +77,15 @@ document.addEventListener('auth-check-complete', () => {
         const courseCompletion = allCourses.length > 0 ? Math.round((completedCoursesCount / allCourses.length) * 100) : 0;
 
         container.innerHTML = `
-            <div class="space-y-6">
-                <div>
-                    <div class="mb-2 flex items-baseline justify-between"><p class="text-base font-medium text-neutral-900">Overall Progress</p><p class="text-xl font-bold text-neutral-900">${overallProgress}%</p></div>
-                    <div class="h-3 w-full rounded-full bg-neutral-200"><div class="h-3 rounded-full bg-green-500" style="width: ${overallProgress}%;"></div></div>
-                    <p class="mt-2 text-sm text-neutral-600">Completed ${completedModulesCount} out of ${totalModulesInEnrolledCourses} modules</p>
-                </div>
-                <div>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm card-animated animate-scaleUp delay-5 fade-scroll">
+                <p class="text-green-700 text-lg font-semibold leading-normal flex items-center gap-2"><span class="material-symbols-outlined text-xl animate-pulse">trending_up</span>Your overall progress: <span class="font-bold text-green-600 ml-2">${overallProgress}%</span></p>
+                <div class="mt-4">
                     <div class="mb-2 flex items-baseline justify-between"><p class="text-base font-medium text-neutral-900">Course Completion</p><p class="text-xl font-bold text-neutral-900">${courseCompletion}%</p></div>
                     <div class="h-3 w-full rounded-full bg-neutral-200"><div class="h-3 rounded-full bg-green-500" style="width: ${courseCompletion}%;"></div></div>
                     <p class="mt-2 text-sm text-neutral-600">Completed ${completedCoursesCount} out of ${allCourses.length} courses</p>
                 </div>
-            </div>`;
+            </div>
+        `;
     }
 
     setTimeout(initializePage, 100); 
