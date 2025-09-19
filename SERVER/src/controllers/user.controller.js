@@ -77,7 +77,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'none',
-    domain: process.env.NODE_ENV === 'production' ? 'ecolearn-flzo.onrender.com' : undefined,
+    domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined,
 };
     return res
         .status(200)
