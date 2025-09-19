@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleLogout = async () => {
         const resp = await fetch(`${API_BASE_URL}/users/logout`, { method: 'POST', credentials: 'include' });
-        alert("logout response",JSON.strigify(resp));
         window.location.href = './index.html';
     };
 
