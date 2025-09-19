@@ -1,9 +1,9 @@
-
+// This script runs AFTER auth.js
 document.addEventListener('auth-check-complete', () => {
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
-    let cart = []; 
-
+    let cart = [];
+    let pointsToUse = 0;
     const productsContainer = document.querySelector('.grid');
     const cartCountSpan = document.getElementById('cart-count');
     const summarySubtotal = document.getElementById('summary-subtotal');
@@ -13,7 +13,16 @@ document.addEventListener('auth-check-complete', () => {
     const checkoutButton = document.getElementById('checkout-button');
     const cartItemsContainer = document.getElementById('cart-items-container');
 
+    const pointsSection = document.getElementById('points-section');
+    const userPointsSpan = document.getElementById('user-points');
+    const applyPointsButton = document.getElementById('apply-points-button');
+    const pointsInput = document.getElementById('points-input');
+
     const initializePage = () => {
+        if (currentUser && pointsSection) {
+            pointsSection.classList.remove('hidden');
+            userPointsSpan.textContent = currentUser.points || 0;
+        }
         fetchProducts();
         updateOrderSummary();
     };
@@ -23,13 +32,12 @@ document.addEventListener('auth-check-complete', () => {
             const response = await fetch(`${API_BASE_URL}/products`);
             if (!response.ok) throw new Error('Network response was not ok');
             const products = await response.json();
-
             productsContainer.innerHTML = '';
             
             products.forEach((product, idx) => {
                 const productCard = document.createElement('div');
                 productCard.className = 'bg-white rounded-xl shadow-lg p-6 border border-green-100 card-animated animate-scaleUp';
-                productCard.style.animationDelay = `${idx * 100}ms`; 
+                productCard.style.animationDelay = `${idx * 100}ms`;
                 
                 productCard.innerHTML = `
                     <img src="${product.imageUrl || 'https://via.placeholder.com/400x200'}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg mb-4">
@@ -47,21 +55,29 @@ document.addEventListener('auth-check-complete', () => {
     };
     
     const updateOrderSummary = () => {
-        if (!summarySubtotal) return; 
+        if (!summarySubtotal) return;
 
         const subtotal = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
-        const discountAmount = 0;
-        const total = subtotal - discountAmount;
+        const discountAmount = pointsToUse; 
+        const total = Math.max(0, subtotal - discountAmount); // Ensure total isn't negative
 
         summarySubtotal.textContent = `₹${subtotal.toFixed(2)}`;
         summaryTotal.textContent = `₹${total.toFixed(2)}`;
+
+        if (discountAmount > 0) {
+            summaryDiscount.textContent = `-₹${discountAmount.toFixed(2)}`;
+            discountRow.classList.remove('hidden');
+            discountRow.classList.add('flex');
+        } else {
+            discountRow.classList.add('hidden');
+        }
         
         const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
         if (cartCountSpan) {
             cartCountSpan.textContent = totalItems;
             cartCountSpan.classList.toggle('hidden', totalItems === 0);
         }
-
+        
         if (cartItemsContainer) {
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
@@ -74,8 +90,10 @@ document.addEventListener('auth-check-complete', () => {
                 `).join('');
             }
         }
+
         checkoutButton.disabled = cart.length === 0;
     };
+
 
     productsContainer.addEventListener('click', async (e) => {
         const button = e.target.closest('.add-to-cart-button');
@@ -88,7 +106,6 @@ document.addEventListener('auth-check-complete', () => {
             existingItem.quantity++;
         } else {
             try {
-                // Fetch full product details to store in the cart
                 const response = await fetch(`${API_BASE_URL}/products/${productId}`);
                 if (!response.ok) throw new Error('Product not found');
                 const product = await response.json();
@@ -99,13 +116,34 @@ document.addEventListener('auth-check-complete', () => {
                 return;
             }
         }
+        
         button.textContent = 'Added!';
-        setTimeout(() => {
-            button.textContent = 'Add to Cart';
-        }, 1000);
+        setTimeout(() => { button.textContent = 'Add to Cart'; }, 1000);
 
         updateOrderSummary();
     });
+
+    if (applyPointsButton) {
+        applyPointsButton.addEventListener('click', () => {
+            const subtotal = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+            const pointsValue = parseInt(pointsInput.value, 10);
+            
+            if (isNaN(pointsValue) || pointsValue < 0) {
+                alert("Please enter a valid number of points.");
+                pointsToUse = 0;
+            } else if (pointsValue > currentUser.points) {
+                alert('You cannot use more points than you have.');
+                pointsToUse = 0;
+            } else if (pointsValue > subtotal) {
+                alert(`You can only apply points up to the subtotal amount of ₹${subtotal.toFixed(2)}.`);
+                pointsToUse = 0;
+            } else {
+                pointsToUse = pointsValue;
+                alert(`${pointsToUse} points applied successfully!`);
+            }
+            updateOrderSummary();
+        });
+    }
 
     checkoutButton.addEventListener('click', () => {
         if (!currentUser) {
@@ -116,7 +154,7 @@ document.addEventListener('auth-check-complete', () => {
             alert('Your cart is empty.');
             return;
         }
-        alert('Proceeding to checkout!');
+        alert(`Proceeding to checkout. Points to use: ${pointsToUse}`);
     });
 
     initializePage();
