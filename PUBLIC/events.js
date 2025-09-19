@@ -25,7 +25,7 @@ document.addEventListener('auth-check-complete', () => {
                 <h2 class="text-xl font-bold text-green-800 mb-2">${event.title}</h2>
                 <p class="text-gray-600 mb-4">${event.description}</p>
                 <p class="text-sm text-gray-500 mb-2"><span class="material-symbols-outlined text-base text-green-600 align-middle">calendar_month</span> ${event.date}</p>
-                <button class="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white font-bold rounded-md hover:from-green-600 hover:to-green-500 btn-ripple animate-bounceIn delay-${idx + 3}">Join Event</button>
+                <button class="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-400 text-white font-bold rounded-md hover:from-green-600 hover:to-green-500 btn-ripple delay-${idx + 3}">Join Event</button>
             `;
             eventsContainer.appendChild(card);
         });
