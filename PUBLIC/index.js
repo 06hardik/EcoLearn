@@ -49,6 +49,7 @@ document.addEventListener('auth-check-complete', () => {
                     credentials: "include",
                 });
                 if (response.ok) {
+                    windows.location.reload();
                 } else {
                     const errorData = await response.json();
                     alert(`Login Failed: ${errorData.message}`);
