@@ -1,4 +1,5 @@
 document.addEventListener('auth-check-complete', () => {
+    console.log('hi')
     const API_BASE_URL = 'https://ecolearn-8436.onrender.com/api';
     const currentUser = window.currentUser;
 
@@ -39,6 +40,7 @@ document.addEventListener('auth-check-complete', () => {
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
         loginForm.addEventListener("submit", async (e) => {
+            console.log('hi1')
             e.preventDefault();
             const email = document.getElementById("login-email").value;
             const password = document.getElementById("login-password").value;
@@ -50,7 +52,7 @@ document.addEventListener('auth-check-complete', () => {
                     credentials: "include",
                 });
                 if (response.ok) {
-                    window.location.reload();
+                    console.log(response.ok)
                 } else {
                     const errorData = await response.json();
                     alert(`Login Failed: ${errorData.message}`);
